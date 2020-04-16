@@ -11,7 +11,7 @@ EBS 온라인 클래스 진도율을 일괄적으로 조회할 수 있는 프로
 ChangeLog : https://github.com/devITae/EBSOCProgressViewer/releases  
 
 
-![메인 스크린샷](./img/screenshot.png)
+![메인 스크린샷](./img/screenshot2.png)
 
 # 1. 사용법
 ## 1.1. 학교코드 검색
