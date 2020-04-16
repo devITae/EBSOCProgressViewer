@@ -1,0 +1,11 @@
+E:\Dev\EBSOCStatus\EBSOCStatus\bin\Release\EBSOCStatus.exe.config
+E:\Dev\EBSOCStatus\EBSOCStatus\bin\Release\EBSOCStatus.exe
+E:\Dev\EBSOCStatus\EBSOCStatus\bin\Release\EBSOCStatus.pdb
+E:\Dev\EBSOCStatus\EBSOCStatus\bin\Release\EBSOCStatus.xml
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Release\EBSOCStatus.Form1.resources
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Release\EBSOCStatus.Resources.resources
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Release\EBSOCStatus.vbproj.GenerateResource.Cache
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Release\EBSOCStatus.exe
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Release\EBSOCStatus.xml
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Release\EBSOCStatus.pdb
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Release\EBSOCStatus.SearchCode.resources

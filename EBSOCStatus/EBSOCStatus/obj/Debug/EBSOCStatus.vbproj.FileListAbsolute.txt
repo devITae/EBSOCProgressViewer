@@ -1,0 +1,23 @@
+C:\Users\Colour\AppData\Local\Temporary Projects\EBSOCStatus\bin\Debug\EBSOCStatus.exe.config
+C:\Users\Colour\AppData\Local\Temporary Projects\EBSOCStatus\bin\Debug\EBSOCStatus.exe
+C:\Users\Colour\AppData\Local\Temporary Projects\EBSOCStatus\bin\Debug\EBSOCStatus.pdb
+C:\Users\Colour\AppData\Local\Temporary Projects\EBSOCStatus\bin\Debug\EBSOCStatus.xml
+C:\Users\Colour\AppData\Local\Temporary Projects\EBSOCStatus\obj\Debug\EBSOCStatus.vbprojResolveAssemblyReference.cache
+C:\Users\Colour\AppData\Local\Temporary Projects\EBSOCStatus\obj\Debug\EBSOCStatus.Form1.resources
+C:\Users\Colour\AppData\Local\Temporary Projects\EBSOCStatus\obj\Debug\EBSOCStatus.Resources.resources
+C:\Users\Colour\AppData\Local\Temporary Projects\EBSOCStatus\obj\Debug\EBSOCStatus.vbproj.GenerateResource.Cache
+C:\Users\Colour\AppData\Local\Temporary Projects\EBSOCStatus\obj\Debug\EBSOCStatus.exe
+C:\Users\Colour\AppData\Local\Temporary Projects\EBSOCStatus\obj\Debug\EBSOCStatus.xml
+C:\Users\Colour\AppData\Local\Temporary Projects\EBSOCStatus\obj\Debug\EBSOCStatus.pdb
+E:\Dev\EBSOCStatus\EBSOCStatus\bin\Debug\EBSOCStatus.exe.config
+E:\Dev\EBSOCStatus\EBSOCStatus\bin\Debug\EBSOCStatus.exe
+E:\Dev\EBSOCStatus\EBSOCStatus\bin\Debug\EBSOCStatus.pdb
+E:\Dev\EBSOCStatus\EBSOCStatus\bin\Debug\EBSOCStatus.xml
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Debug\EBSOCStatus.vbprojResolveAssemblyReference.cache
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Debug\EBSOCStatus.Form1.resources
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Debug\EBSOCStatus.Resources.resources
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Debug\EBSOCStatus.vbproj.GenerateResource.Cache
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Debug\EBSOCStatus.exe
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Debug\EBSOCStatus.xml
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Debug\EBSOCStatus.pdb
+E:\Dev\EBSOCStatus\EBSOCStatus\obj\Debug\EBSOCStatus.SearchCode.resources
