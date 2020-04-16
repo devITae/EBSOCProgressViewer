@@ -1,7 +1,10 @@
 ﻿Public Class Form1
-    Public http As Object
+    Public http, http2 As Object
     Public U1, UrlList(), First, SAML0, SAML1 As String
+    Dim nowVersion As String
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        nowVersion = "1.10.0" '버전 가운데는 두자리로!
+        CheckUpdate(nowVersion)
         SCodeBox.Text = My.Settings.SchCode
         IDBox.Text = My.Settings.ID
         IDSaveBox.Checked = My.Settings.IDSave
@@ -14,7 +17,6 @@
         First = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
         SAML0 = Split(Split(First, "name=""SAMLRequest")(1), "/>")(0)
         SAML1 = Split(Split(SAML0, "value=""")(1), """")(0) 'SAMLRequest 추출
-
     End Sub
     Private Sub IDSaving() '아이디 저장 여부
         If My.Settings.IDSave = True Then
@@ -84,6 +86,7 @@
         LoginBtn.Enabled = bool
         SCodeBox.Enabled = bool
         SCodeFind.Enabled = bool
+        IDSaveBox.Enabled = bool
     End Sub
     Private Sub LoginBtn_Click(sender As Object, e As EventArgs) Handles LoginBtn.Click
         Call Login()
@@ -197,6 +200,31 @@
             StatusList.Columns(e.Column).ListView.Sorting = SortOrder.Descending
         Else
             StatusList.Columns(e.Column).ListView.Sorting = SortOrder.Ascending
+        End If
+    End Sub
+    Public Sub CheckUpdate(nowVer As String)
+        Dim HTML, lastest, upLink, IU As String
+        http2 = CreateObject("WinHttp.WinHttpRequest.5.1")
+        http2.Open("GET", "https://github.com/devITae/EBSOCProgressViewer/blob/master/img/version")
+        http2.Send()
+        http2.WaitForResponse()
+        HTML = System.Text.Encoding.UTF8.GetString(http2.ResponseBody)
+        lastest = Split(Split(HTML, "Lastest(v")(1), ")")(0)
+        upLink = Split(Split(HTML, "UpdateLink(")(1), ")")(0)
+
+        If lastest = nowVer Then
+            '최신버전
+        ElseIf lastest > nowVersion Then
+            '업데이트 알림
+            IU = MsgBox("새로운 버전이 감지되었습니다!" & vbCrLf & "지금 업데이트 하시겠습니까?", vbYesNo)
+            If IU = vbYes Then
+                System.Diagnostics.Process.Start(upLink)
+            Else
+                '흠흠
+            End If
+        Else
+            '지금 버전이 최신보다 클 때
+            MsgBox("알 수 없는 버전입니다.")
         End If
     End Sub
 End Class
