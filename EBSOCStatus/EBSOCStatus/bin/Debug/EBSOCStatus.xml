@@ -8,18 +8,23 @@ EBSOCStatus
 <members>
 <member name="T:EBSOCStatus.My.Resources.Resources">
 <summary>
-  A strongly-typed resource class, for looking up localized strings, etc.
+  지역화된 문자열 등을 찾기 위한 강력한 형식의 리소스 클래스입니다.
 </summary>
 </member>
 <member name="P:EBSOCStatus.My.Resources.Resources.ResourceManager">
 <summary>
-  Returns the cached ResourceManager instance used by this class.
+  이 클래스에서 사용하는 캐시된 ResourceManager 인스턴스를 반환합니다.
 </summary>
 </member>
 <member name="P:EBSOCStatus.My.Resources.Resources.Culture">
 <summary>
-  Overrides the current thread's CurrentUICulture property for all
-  resource lookups using this strongly typed resource class.
+  이 강력한 형식의 리소스 클래스를 사용하여 모든 리소스 조회에 대한 현재 스레드의 CurrentUICulture
+  속성을 재정의합니다.
+</summary>
+</member>
+<member name="P:EBSOCStatus.My.Resources.Resources.icon1">
+<summary>
+  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
 </members>

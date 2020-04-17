@@ -39,8 +39,12 @@ Partial Class Form1
         Me.IDSaveBox = New System.Windows.Forms.CheckBox()
         Me.SCodeFind = New System.Windows.Forms.Button()
         Me.LinkLabel1 = New System.Windows.Forms.LinkLabel()
-        Me.Label3 = New System.Windows.Forms.Label()
         Me.Label4 = New System.Windows.Forms.Label()
+        Me.lrnType = New System.Windows.Forms.ComboBox()
+        Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
         'IDBox
@@ -75,7 +79,7 @@ Partial Class Form1
         Me.ClassList.Enabled = False
         Me.ClassList.Location = New System.Drawing.Point(16, 185)
         Me.ClassList.Name = "ClassList"
-        Me.ClassList.Size = New System.Drawing.Size(229, 369)
+        Me.ClassList.Size = New System.Drawing.Size(229, 349)
         Me.ClassList.TabIndex = 5
         Me.ClassList.UseCompatibleStateImageBehavior = False
         Me.ClassList.View = System.Windows.Forms.View.Details
@@ -91,7 +95,7 @@ Partial Class Form1
         Me.StatusList.Enabled = False
         Me.StatusList.Location = New System.Drawing.Point(262, 72)
         Me.StatusList.Name = "StatusList"
-        Me.StatusList.Size = New System.Drawing.Size(641, 482)
+        Me.StatusList.Size = New System.Drawing.Size(641, 462)
         Me.StatusList.TabIndex = 6
         Me.StatusList.UseCompatibleStateImageBehavior = False
         Me.StatusList.View = System.Windows.Forms.View.Details
@@ -126,16 +130,17 @@ Partial Class Form1
         '
         Me.Label1.AutoSize = True
         Me.Label1.Font = New System.Drawing.Font("Noto Sans CJK KR Regular", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label1.Location = New System.Drawing.Point(12, 18)
+        Me.Label1.Location = New System.Drawing.Point(56, 18)
         Me.Label1.Name = "Label1"
         Me.Label1.Size = New System.Drawing.Size(360, 40)
         Me.Label1.TabIndex = 9
-        Me.Label1.Text = "EBS OnlineClass 진도율 조회"
+        Me.Label1.Text = "EBS OnlineClass 진도율 뷰어"
         '
         'SCodeBox
         '
         Me.SCodeBox.Location = New System.Drawing.Point(87, 72)
         Me.SCodeBox.Name = "SCodeBox"
+        Me.SCodeBox.ReadOnly = True
         Me.SCodeBox.Size = New System.Drawing.Size(95, 21)
         Me.SCodeBox.TabIndex = 10
         '
@@ -171,31 +176,61 @@ Partial Class Form1
         'LinkLabel1
         '
         Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Location = New System.Drawing.Point(132, 565)
+        Me.LinkLabel1.Location = New System.Drawing.Point(135, 551)
         Me.LinkLabel1.Name = "LinkLabel1"
         Me.LinkLabel1.Size = New System.Drawing.Size(42, 12)
         Me.LinkLabel1.TabIndex = 14
         Me.LinkLabel1.TabStop = True
         Me.LinkLabel1.Text = "GitHub"
         '
-        'Label3
-        '
-        Me.Label3.AutoSize = True
-        Me.Label3.Location = New System.Drawing.Point(260, 561)
-        Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(477, 24)
-        Me.Label3.TabIndex = 15
-        Me.Label3.Text = "※ 학습중(진도율 100% 이하) 인 강의들만 목록만 표시됩니다." & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "※ EBS의 DB오류로 인해 간헐적으로 100%를 달성한 강의가 조회되는 경우" &
-    "가 있습니다."
-        '
         'Label4
         '
         Me.Label4.AutoSize = True
-        Me.Label4.Location = New System.Drawing.Point(14, 565)
+        Me.Label4.Location = New System.Drawing.Point(17, 551)
         Me.Label4.Name = "Label4"
         Me.Label4.Size = New System.Drawing.Size(112, 12)
         Me.Label4.TabIndex = 16
         Me.Label4.Text = "제작: 이재형 (ITae)"
+        '
+        'lrnType
+        '
+        Me.lrnType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
+        Me.lrnType.Enabled = False
+        Me.lrnType.FormattingEnabled = True
+        Me.lrnType.Items.AddRange(New Object() {"학습중", "학습완료"})
+        Me.lrnType.Location = New System.Drawing.Point(724, 46)
+        Me.lrnType.Name = "lrnType"
+        Me.lrnType.Size = New System.Drawing.Size(95, 20)
+        Me.lrnType.TabIndex = 17
+        '
+        'RichTextBox1
+        '
+        Me.RichTextBox1.Location = New System.Drawing.Point(262, 540)
+        Me.RichTextBox1.Name = "RichTextBox1"
+        Me.RichTextBox1.ReadOnly = True
+        Me.RichTextBox1.Size = New System.Drawing.Size(641, 57)
+        Me.RichTextBox1.TabIndex = 18
+        Me.RichTextBox1.Text = "※ 진도율은 프로그램 내에서 진행된 자체적인 계산입니다." & Global.Microsoft.VisualBasic.ChrW(10) & "※ EBS의 DB오류로 인해 학습완료임에도 100%로 표기되는 경우가 존재합니다." & Global.Microsoft.VisualBasic.ChrW(10) & "※ 조" &
+    "회 내용이 잘못되었다면, 새로고침하거나 홈페이지 내에서 확인해주세요."
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = Global.EBSOCStatus.My.Resources.Resources.icon1
+        Me.PictureBox1.Location = New System.Drawing.Point(16, 15)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(40, 46)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox1.TabIndex = 19
+        Me.PictureBox1.TabStop = False
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(17, 574)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(141, 12)
+        Me.Label3.TabIndex = 20
+        Me.Label3.Text = "버전: v2.0 (Build 200417)"
         '
         'Form1
         '
@@ -203,9 +238,12 @@ Partial Class Form1
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BackColor = System.Drawing.Color.White
-        Me.ClientSize = New System.Drawing.Size(919, 595)
-        Me.Controls.Add(Me.Label4)
+        Me.ClientSize = New System.Drawing.Size(919, 606)
         Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.PictureBox1)
+        Me.Controls.Add(Me.RichTextBox1)
+        Me.Controls.Add(Me.lrnType)
+        Me.Controls.Add(Me.Label4)
         Me.Controls.Add(Me.LinkLabel1)
         Me.Controls.Add(Me.SCodeFind)
         Me.Controls.Add(Me.IDSaveBox)
@@ -223,7 +261,8 @@ Partial Class Form1
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "EBS OnlineClass 진도율 조회 v1.10"
+        Me.Text = "EBS OnlineClass 진도율 뷰어 v2.0"
+        CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -245,6 +284,9 @@ Partial Class Form1
     Friend WithEvents IDSaveBox As CheckBox
     Friend WithEvents SCodeFind As Button
     Friend WithEvents LinkLabel1 As LinkLabel
-    Friend WithEvents Label3 As Label
     Friend WithEvents Label4 As Label
+    Friend WithEvents lrnType As ComboBox
+    Friend WithEvents RichTextBox1 As RichTextBox
+    Friend WithEvents PictureBox1 As PictureBox
+    Friend WithEvents Label3 As Label
 End Class

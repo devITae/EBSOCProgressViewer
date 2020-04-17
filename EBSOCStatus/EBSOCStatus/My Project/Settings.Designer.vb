@@ -89,6 +89,18 @@ Namespace My
                 Me("IDSave") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property SchHost() As String
+            Get
+                Return CType(Me("SchHost"),String)
+            End Get
+            Set
+                Me("SchHost") = value
+            End Set
+        End Property
     End Class
 End Namespace
 

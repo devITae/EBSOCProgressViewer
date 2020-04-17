@@ -1,15 +1,20 @@
-﻿Public Class Form1
+﻿Imports System.Text.RegularExpressions
+Public Class Form1
     Public http, http2 As Object
-    Public U1, UrlList(), First, SAML0, SAML1 As String
+    Public U1, UrlList(), First, SAML0, SAML1, Shost, MainH, LType As String
     Dim nowVersion As String
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        nowVersion = "1.10.0" '버전 가운데는 두자리로!
+        nowVersion = "2.00.0" '버전 가운데는 두자리로!
+        lrnType.Text = "학습중"
+        LType = "LRN"
         CheckUpdate(nowVersion)
         SCodeBox.Text = My.Settings.SchCode
         IDBox.Text = My.Settings.ID
         IDSaveBox.Checked = My.Settings.IDSave
+        Shost = "hoc30" '임시방편
+
         http = CreateObject("WinHttp.WinHttpRequest.5.1")
-        http.Open("GET", "https://hoc24.ebssw.kr/sso/loginView.do?loginType=onlineClass")
+        http.Open("GET", "https://ebssw.kr/sso/loginView.do?loginType=onlineClass")
         'http.Send("c=LI&SAMLRequest=PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c2FtbDJwOkF1dGhuUmVxdWVzdCAgICB4bWxuczpzYW1sMnA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgICAgICAgIElEPSJob2MyNC5lYnNzdy5rci0xNTg2OTY0MDcxNjUxIiAgICAgICAgVmVyc2lvbj0iMi4wIiAgICAgICAgSXNzdWVJbnN0YW50PSIyMDIwLTA0LTE1VDE1OjIxOjExLjY1MVoiICAgICAgICBBc3NlcnRpb25Db25zdW1lclNlcnZpY2VVUkw9Imh0dHBzOi8vaG9jMjQuZWJzc3cua3Ivc3NvIiAgICAgICAgRGVzdGluYXRpb249Imh0dHBzOi8vc3NvLmVicy5jby5rci9pZHAvcHJvZmlsZS9TQU1MMi9QT1NULVJlZGlyZWN0L1NTTyI+PHNhbWwyOklzc3VlciB4bWxuczpzYW1sMj0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmFzc2VydGlvbiI+aG9jMjQuZWJzc3cua3I8L3NhbWwyOklzc3Vlcj48L3NhbWwycDpBdXRoblJlcXVlc3Q+&j_returnurl=https%3A%2F%2Fhoc.ebssw.kr%2FonlineClass%2Freqst%2FonlineClassReqstInfoView.do&j_loginurl=https%3A%2F%2Fhoc24.ebssw.kr%2Fsso%2FloginView.do&hmpgId=&userSeCode=&loginType=onlineClass")
         http.Send()
         http.WaitForResponse()
@@ -28,6 +33,9 @@
         End If
     End Sub
     Private Sub Login()
+        Shost = My.Settings.SchHost '학교 호스트(서버 네임)
+        MainH = Regex.Replace(Shost, "\d", "") '학교 메인호스트 추출 
+        'MsgBox(MainH) '호스트추출 Test
         Call Enable_Control(False)
         Call IDSaving()
         My.Settings.SchCode = SCodeBox.Text
@@ -46,28 +54,31 @@
             SCodeBox.Focus()
         Else
             '로그인 시도
-            http.Open("POST", "https://hoc24.ebssw.kr/sso")
-            http.SetRequestHeader("Referer", "https://hoc.ebssw.kr/sso/loginView.do?loginType=onlineClass")
+            ' MsgBox("Shost: " & Shost & vbCrLf & "MainH: " & MainH)
+            http.Open("POST", "https://" & Shost & ".ebssw.kr/sso")
+            http.SetRequestHeader("Referer", "https://" & MainH & ".ebssw.kr/sso/loginView.do?loginType=onlineClass")
             http.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
             http.SetRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36")
             http.SetRequestHeader("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6")
-            http.SetRequestHeader("Host", "hoc.ebssw.kr")
-            http.Send("c=LI&SAMLRequest=" & SAML1 & "&j_returnurl=https%3A%2F%2Fhoc.ebssw.kr%2FonlineClass%2Freqst%2FonlineClassReqstInfoView.do&j_loginurl=https%3A%2F%2Fhoc.ebssw.kr%2Fsso%2FloginView.do&j_logintype=&localLoginUrl=&hmpgId=&userSeCode=&loginType=onlineClass" & "&j_username=" & IDBox.Text & "&j_password=" & PWBox.Text)
+            http.SetRequestHeader("Host", MainH & ".ebssw.kr")
+            http.Send("c=LI&SAMLRequest=" & SAML1 & "&j_returnurl=https%3A%2F%2F" & MainH & ".ebssw.kr%2FonlineClass%2Freqst%2FonlineClassReqstInfoView.do&j_loginurl=https%3A%2F%2F" & MainH & ".ebssw.kr%2Fsso%2FloginView.do&j_logintype=&localLoginUrl=&hmpgId=&userSeCode=&loginType=onlineClass" & "&j_username=" & IDBox.Text & "&j_password=" & PWBox.Text)
             'http.Send("c=LI&SAMLRequest=PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c2FtbDJwOkF1dGhuUmVxdWVzdCAgICB4bWxuczpzYW1sMnA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgICAgICAgIElEPSJob2MuZWJzc3cua3ItMTU4NjYyNTQ3MTMwNyIgICAgICAgIFZlcnNpb249IjIuMCIgICAgICAgIElzc3VlSW5zdGFudD0iMjAyMC0wNC0xMVQxNzoxNzo1MS4zMDdaIiAgICAgICAgQXNzZXJ0aW9uQ29uc3VtZXJTZXJ2aWNlVVJMPSJodHRwczovL2hvYy5lYnNzdy5rci9zc28iICAgICAgICBEZXN0aW5hdGlvbj0iaHR0cHM6Ly9zc28uZWJzLmNvLmtyL2lkcC9wcm9maWxlL1NBTUwyL1BPU1QtUmVkaXJlY3QvU1NPIj48c2FtbDI6SXNzdWVyIHhtbG5zOnNhbWwyPSJ1cm46b2FzaXM6bmFtZXM6dGM6U0FNTDoyLjA6YXNzZXJ0aW9uIj5ob2MuZWJzc3cua3I8L3NhbWwyOklzc3Vlcj48L3NhbWwycDpBdXRoblJlcXVlc3Q%2B&j_returnurl=https%3A%2F%2Fhoc.ebssw.kr%2FonlineClass%2Freqst%2FonlineClassReqstInfoView.do&j_loginurl=https%3A%2F%2Fhoc.ebssw.kr%2Fsso%2FloginView.do&j_logintype=&localLoginUrl=&hmpgId=&userSeCode=&loginType=onlineClass" & "&j_username=" & IDBox.Text & "&j_password=" & PWBox.Text)
             http.WaitForResponse(1000)
 
             '학교 페이지 접속
-            http.Open("GET", "https://hoc24.ebssw.kr/onlineClass/search/onlineClassSearchView.do?schulCcode=" & SCodeBox.Text)
+            http.Open("GET", "https://" & Shost & ".ebssw.kr/onlineClass/search/onlineClassSearchView.do?schulCcode=" & SCodeBox.Text)
             http.Send()
             http.WaitForResponse()
 
             Temp = http.ResponseText
 
             If InStr(Temp, IDBox.Text) Then
-                MsgBox("로그인에 성공하였습니다.", MsgBoxStyle.Exclamation)
+                MsgBox("로그인에 성공하였습니다.", MsgBoxStyle.Exclamation, "환영합니다!")
                 StatusList.Enabled = True
                 ClassList.Enabled = True
                 startNokori.Enabled = True
+                lrnType.Enabled = True
+                lrnType.Text = "학습중"
                 Call CallClassList()
             ElseIf InStr(Temp, "로그인을 해주세요.") Then
                 MsgBox("아이디 또는 비밀번호 오류.", MsgBoxStyle.Exclamation, "로그인 오류")
@@ -99,7 +110,7 @@
     Private Sub CallClassList()
         '클래스 리스트 조회
         Dim html, Cut, Cname(), CUrl() As String
-        http.Open("GET", "https://hoc24.ebssw.kr/onlineClass/reqst/onlineClassReqstInfoView.do")
+        http.Open("GET", "https://" & Shost & ".ebssw.kr/onlineClass/reqst/onlineClassReqstInfoView.do")
         http.Send()
         http.WaitForResponse()
         html = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
@@ -124,9 +135,24 @@
             MsgBox("불러오기에 실패했습니다.")
         End Try
     End Sub
+
+    Private Sub lrnType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lrnType.SelectedIndexChanged
+        If lrnType.Text = "학습중" Then
+            LType = "LRN"
+            Call CallNokori()
+        ElseIf lrnType.Text = "학습완료" Then
+            LType = "COMPT"
+            Call CallNokori()
+        Else
+            lrnType.Text = "학습중"
+            LType = "LRN"
+        End If
+    End Sub
+
     Private Sub CallNokori()
         '진행중인 강의와 진도율 조회
-        Dim html, html2, MyUrl, Cutting, Lname(), LStatus(), NowUrl, ClassName As String
+        Dim html, html2, MyUrl, Cutting, Lname(), Cutting2, NowUrl, ClassName, Ltotal(), Lend() As String
+        Dim Lcount, Ltot As String
         startNokori.Enabled = False
         UrlList = Split(U1, "|") 'URL을 리스트로 정렬
         StatusList.Items.Clear() '리스트 초기화
@@ -140,32 +166,57 @@
             ClassName = Split(Split(html, "logo txt_grey"">")(1), "</a>")(0) '클래스 이름 추출
             MyUrl = Split(Split(html, "mypageView.do?menuSn=")(1), """")(0) '마이페이지 게시판넘버 추출
 
-            http.Open("POST", NowUrl & "/hmpg/mypageLrnTabView.do?lrnType=LRN") '마이페이지
+            http.Open("POST", NowUrl & "/hmpg/mypageLrnTabView.do?lrnType=" & LType) '마이페이지 LRN:학습중 / COMPT:학습완료
             http.SetRequestHeader("Referer", NowUrl & "/hmpg/mypageView.do?menuSn=" & MyUrl)
             http.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
             http.SetRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36")
             http.SetRequestHeader("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6")
-            http.SetRequestHeader("Host", "hoc24.ebssw.kr")
+            http.SetRequestHeader("Host", Shost & ".ebssw.kr")
             http.Send("menuSn=" & MyUrl)
             http.WaitForResponse()
             html2 = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
-
-            Cutting = Split(Split(html2, "list al")(1), "</ul>")(0)
+            'Console.WriteLine("<------------------------>" & vbCrLf & html2)
+            Cutting = Split(html2, "list al")(1)
 
             If InStr(Cutting, "학습중인 강좌가 없습니다.") Then
                 '넘어가욧!
             Else
+                'Console.WriteLine(Cutting)
                 Lname = Split(Cutting, "tit bold") 'for문에서 i가 추가되면 새롭게 string을 찾음
-                LStatus = Split(Cutting, "class_rate")
-
+                Cutting2 = Split(Split(Cutting, "ico_way clearfix")(1), "</div>")(0)
                 For i2 = 1 To UBound(Lname)
-                    Lname(i2) = Split(Split(Lname(i2), "tit_txt"">")(1), "</span>")(0).Replace(vbTab, "")
-                    LStatus(i2) = Split(Split(LStatus(i2), "<li>진도율 : ")(1), "</li>")(0)
+                    Lcount = 0
+                    Ltot = 0
+                    Lname(i2) = Split(Split(Lname(i2), "tit_txt"">")(1), "</span>")(0).Replace(vbTab, "") '강의 제목
+
+                    Ltotal = Split(Cutting2, "<a")
+                    Lend = Split(Cutting2, "<a")
+
+                    For i3 = 1 To UBound(Ltotal) 'end 검출
+                        'Console.WriteLine("<------------------------>" & vbCrLf & Ltotal(i3))
+                        Ltotal(i3) = Split(Split(Ltotal(i3), "hr")(1), "javascript")(0)
+                        Lend(i3) = Split(Split(Lend(i3), "class")(1), ">")(0)
+
+                        If InStr(Ltotal(i3), "ef") Then
+                            Ltot = Ltot + 1
+                        End If
+                        If InStr(Lend(i3), "end") Then 'class="end">
+                            Lcount = Lcount + 1
+                        End If
+
+                    Next i3
+                    Application.DoEvents()
+
+                    Dim totalPer As Double = Lcount / Ltot * 100
+                    Dim strPer As String = Int32.Parse(Math.Truncate(totalPer).ToString()) & "%"
+
+                    ' MsgBox(strPer)
+                    'class="end" 개수 검출 -> 강의 개수 강좌구성 : 1개 강의
 
                     Dim CListDesu As New ListViewItem(ClassName, i2 - 1) '과목 제목
                     StatusList.Items.AddRange(New ListViewItem() {CListDesu})
                     CListDesu.SubItems.Add(Lname(i2)) '진도 이름
-                    CListDesu.SubItems.Add(LStatus(i2)) '진도율
+                    CListDesu.SubItems.Add(strPer) '진도율
                     Application.DoEvents()
                 Next i2
             End If
@@ -224,7 +275,7 @@
             End If
         Else
             '지금 버전이 최신보다 클 때
-            MsgBox("알 수 없는 버전입니다.")
+            MsgBox("개발중인 테스트 버전 입니다.", MsgBoxStyle.Exclamation, "Welcome! Beta Tester.")
         End If
     End Sub
 End Class

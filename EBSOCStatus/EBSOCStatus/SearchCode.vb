@@ -61,6 +61,8 @@
         http2.WaitForResponse()
         html2 = System.Text.Encoding.UTF8.GetString(http2.ResponseBody)
         SchName = Split(Split(html2, "loadSchulList('" & code & "', '', '', '', '")(1), "' );")(0)
+        My.Settings.SchHost = hosted
+        My.Settings.Save()
         Return SchName
     End Function
     Private Sub Result_SelectedIndexChanged(sender As Object, e As EventArgs) Handles Result.SelectedIndexChanged
