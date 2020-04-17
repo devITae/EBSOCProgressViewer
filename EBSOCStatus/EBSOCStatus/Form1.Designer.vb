@@ -210,8 +210,8 @@ Partial Class Form1
         Me.RichTextBox1.ReadOnly = True
         Me.RichTextBox1.Size = New System.Drawing.Size(641, 57)
         Me.RichTextBox1.TabIndex = 18
-        Me.RichTextBox1.Text = "※ 진도율은 프로그램 내에서 진행된 자체적인 계산입니다." & Global.Microsoft.VisualBasic.ChrW(10) & "※ EBS의 DB오류로 인해 학습완료임에도 100%로 표기되는 경우가 존재합니다." & Global.Microsoft.VisualBasic.ChrW(10) & "※ 조" &
-    "회 내용이 잘못되었다면, 새로고침하거나 홈페이지 내에서 확인해주세요."
+        Me.RichTextBox1.Text = "※ 진도율은 프로그램 내에서 진행된 자체적인 계산입니다." & Global.Microsoft.VisualBasic.ChrW(10) & "※ EBS의 DB오류로 인해 학습완료 임에도 100%로 표기되지 않는 경우가 존재합니다." &
+    "" & Global.Microsoft.VisualBasic.ChrW(10) & "※ 조회 내용이 잘못되었다면, 새로고침하거나 홈페이지 내에서 확인해주세요."
         '
         'PictureBox1
         '
@@ -230,7 +230,7 @@ Partial Class Form1
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(141, 12)
         Me.Label3.TabIndex = 20
-        Me.Label3.Text = "버전: v2.0 (Build 200417)"
+        Me.Label3.Text = "버전: v2.0 (Build 200418)"
         '
         'Form1
         '
