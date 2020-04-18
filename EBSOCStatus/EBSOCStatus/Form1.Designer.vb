@@ -170,7 +170,7 @@ Partial Class Form1
         Me.SCodeFind.Name = "SCodeFind"
         Me.SCodeFind.Size = New System.Drawing.Size(57, 21)
         Me.SCodeFind.TabIndex = 13
-        Me.SCodeFind.Text = "찾기"
+        Me.SCodeFind.Text = "검색"
         Me.SCodeFind.UseVisualStyleBackColor = True
         '
         'LinkLabel1
@@ -215,7 +215,7 @@ Partial Class Form1
         '
         'PictureBox1
         '
-        Me.PictureBox1.Image = Global.EBSOCStatus.My.Resources.Resources.icon1
+        Me.PictureBox1.Image = Global.EBSOCStatus.My.Resources.Resources.icon3
         Me.PictureBox1.Location = New System.Drawing.Point(16, 15)
         Me.PictureBox1.Name = "PictureBox1"
         Me.PictureBox1.Size = New System.Drawing.Size(40, 46)
@@ -230,7 +230,7 @@ Partial Class Form1
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(141, 12)
         Me.Label3.TabIndex = 20
-        Me.Label3.Text = "버전: v2.0 (Build 200418)"
+        Me.Label3.Text = "버전: v2.1 (Build 200419)"
         '
         'Form1
         '
@@ -261,7 +261,7 @@ Partial Class Form1
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "EBS OnlineClass 진도율 뷰어 v2.0"
+        Me.Text = "EBS OnlineClass 진도율 뷰어 v2.1"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()

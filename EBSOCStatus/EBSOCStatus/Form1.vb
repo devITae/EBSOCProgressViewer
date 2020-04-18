@@ -4,7 +4,7 @@ Public Class Form1
     Public U1, UrlList(), First, SAML0, SAML1, Shost, MainH, LType As String
     Dim nowVersion As String
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        nowVersion = "2.00.0" '버전 가운데는 두자리로!
+        nowVersion = "2.01.0" '버전 가운데는 두자리로!
         lrnType.Text = "학습중"
         LType = "LRN"
         CheckUpdate(nowVersion)
@@ -12,6 +12,11 @@ Public Class Form1
         IDBox.Text = My.Settings.ID
         IDSaveBox.Checked = My.Settings.IDSave
         Shost = "hoc30" '임시방편
+
+        StatusList.Enabled = False
+        ClassList.Enabled = False
+        startNokori.Enabled = False
+        lrnType.Enabled = False
 
         http = CreateObject("WinHttp.WinHttpRequest.5.1")
         http.Open("GET", "https://ebssw.kr/sso/loginView.do?loginType=onlineClass")
@@ -132,7 +137,7 @@ Public Class Form1
             Next i
             Call CallNokori() '자동 새로고침
         Catch ex As Exception
-            MsgBox("불러오기에 실패했습니다.")
+            MsgBox("불러오는 중 오류가 발생했습니다.")
         End Try
     End Sub
 
@@ -151,9 +156,11 @@ Public Class Form1
 
     Private Sub CallNokori()
         '진행중인 강의와 진도율 조회
-        Dim html, html2, MyUrl, Cutting, Lname(), Cutting2, NowUrl, ClassName, Ltotal(), Lend() As String
+        Dim html, html2, MyUrl, Cutting, Lname(), NowUrl, ClassName, Lend(), Ltotal, Lcontext() As String
         Dim Lcount, Ltot As String
-        startNokori.Enabled = False
+
+        startNokori.Enabled = False '새로고침 비활성화
+        lrnType.Enabled = False '콤보박스 비활성화
         UrlList = Split(U1, "|") 'URL을 리스트로 정렬
         StatusList.Items.Clear() '리스트 초기화
 
@@ -178,36 +185,32 @@ Public Class Form1
             'Console.WriteLine("<------------------------>" & vbCrLf & html2)
             Cutting = Split(html2, "list al")(1)
 
-            If InStr(Cutting, "학습중인 강좌가 없습니다.") Then
+            If InStr(Cutting, "강좌가 없습니다.") Then
                 '넘어가욧!
             Else
-                'Console.WriteLine(Cutting)
+                'Console.WriteLine(Cutting) 
                 Lname = Split(Cutting, "tit bold") 'for문에서 i가 추가되면 새롭게 string을 찾음
-                Cutting2 = Split(Split(Cutting, "ico_way clearfix")(1), "</div>")(0)
+                Lcontext = Split(Cutting, "tit bold")
+
                 For i2 = 1 To UBound(Lname)
-                    Lcount = 0
-                    Ltot = 0
                     Lname(i2) = Split(Split(Lname(i2), "tit_txt"">")(1), "</span>")(0).Replace(vbTab, "") '강의 제목
+                    Lcontext(i2) = Split(Split(Lcontext(i2), "class=""way""")(1), "</div>")(0) '목차 부분만 따오기
+                    Lend = Split(Lcontext(i2), "<a href") 'a 부분 반복 ㄱㄱ
 
-                    Ltotal = Split(Cutting2, "<a")
-                    Lend = Split(Cutting2, "<a")
+                    'Console.WriteLine("<------------------------>" & vbCrLf & Lcontext(i2)) '강의 당 목차 파싱 출력
 
-                    For i3 = 1 To UBound(Ltotal) 'end 검출
-                        'Console.WriteLine("<------------------------>" & vbCrLf & Ltotal(i3))
-                        Ltotal(i3) = Split(Split(Ltotal(i3), "hr")(1), "javascript")(0)
-                        Lend(i3) = Split(Split(Lend(i3), "class")(1), ">")(0)
-
-                        If InStr(Ltotal(i3), "ef") Then
-                            Ltot = Ltot + 1
+                    Lcount = 0
+                    Ltot = 0 '카운트 초기화 
+                    For i4 = 1 To UBound(Lend) 'end 검출
+                        Lend(i4) = Split(Split(Lend(i4), "class=")(1), ">")(0) '강의 목차 추출
+                        If InStr(Lend(i4), "end") Then 'class="end">
+                            Lcount = Lcount + 1 '완료 카운트 계산
                         End If
-                        If InStr(Lend(i3), "end") Then 'class="end">
-                            Lcount = Lcount + 1
-                        End If
-
-                    Next i3
-                    Application.DoEvents()
-
-                    Dim totalPer As Double = Lcount / Ltot * 100
+                    Next i4
+                    Ltotal = UBound(Lend)
+                    'Application.DoEvents()
+                    'Console.WriteLine("<--" & Lname(i2) & ": " & Lcount & "/" & UBound(Lend))
+                    Dim totalPer As Double = Lcount / Ltotal * 100
                     Dim strPer As String = Int32.Parse(Math.Truncate(totalPer).ToString()) & "%"
 
                     ' MsgBox(strPer)
@@ -218,11 +221,15 @@ Public Class Form1
                     CListDesu.SubItems.Add(Lname(i2)) '진도 이름
                     CListDesu.SubItems.Add(strPer) '진도율
                     Application.DoEvents()
+                    Lcount = 0
+                    Ltot = 0 '카운트 초기화 
                 Next i2
             End If
             Application.DoEvents()
         Next i
+        '로딩완료 이후
         startNokori.Enabled = True '새로고침 버튼 활성화
+        lrnType.Enabled = True '콤보박스 활성화
     End Sub
     Private Sub IDSaveBox_CheckedChanged(sender As Object, e As EventArgs) Handles IDSaveBox.CheckedChanged
         '아이디저장 체크시 상태저장 ㄱㄱ
@@ -231,12 +238,12 @@ Public Class Form1
         Call IDSaving()
     End Sub
     Private Sub SCodeFind_Click(sender As Object, e As EventArgs) Handles SCodeFind.Click
-        SearchCode.Show()
+        SearchCode.Show() '학교검색 폼 실행
         'System.Diagnostics.Process.Start("https://github.com/devITae/EBSOCProgressViewer#11-%ED%95%99%EA%B5%90%EC%BD%94%EB%93%9C-%EC%B0%BE%EA%B8%B0")
     End Sub
 
     Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-        System.Diagnostics.Process.Start("https://github.com/devITae/EBSOCProgressViewer")
+        System.Diagnostics.Process.Start("https://github.com/devITae/EBSOCProgressViewer") '깃허브 이동
     End Sub
 
     Private Sub startNokori_Click(sender As Object, e As EventArgs) Handles startNokori.Click
@@ -254,7 +261,8 @@ Public Class Form1
         End If
     End Sub
     Public Sub CheckUpdate(nowVer As String)
-        Dim HTML, lastest, upLink, IU As String
+        '업데이트 확인
+        Dim HTML, lastest, upLink, IU, notice As String
         http2 = CreateObject("WinHttp.WinHttpRequest.5.1")
         http2.Open("GET", "https://github.com/devITae/EBSOCProgressViewer/blob/master/img/version")
         http2.Send()
@@ -265,6 +273,10 @@ Public Class Form1
 
         If lastest = nowVer Then
             '최신버전
+            If InStr(HTML, "공지사항있음") Then
+                notice = Split(Split(HTML, "NotiMent(")(1), ")")(0)
+                MsgBox(notice, MsgBoxStyle.Exclamation, "공지사항")
+            End If
         ElseIf lastest > nowVersion Then
             '업데이트 알림
             IU = MsgBox("새로운 버전이 감지되었습니다!" & vbCrLf & "지금 업데이트 하시겠습니까?", vbYesNo)

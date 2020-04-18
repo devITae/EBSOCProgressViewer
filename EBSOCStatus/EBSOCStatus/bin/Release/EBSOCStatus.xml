@@ -22,7 +22,7 @@ EBSOCStatus
   속성을 재정의합니다.
 </summary>
 </member>
-<member name="P:EBSOCStatus.My.Resources.Resources.icon1">
+<member name="P:EBSOCStatus.My.Resources.Resources.icon3">
 <summary>
   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
