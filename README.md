@@ -8,7 +8,7 @@ EBS 온라인 클래스 진도율을 일괄적으로 조회할 수 있는 프로
 ![최초 실행시](./img/first_notice.png)
 #### VB .NET 으로 제작되었으며 윈도우에서만 이용가능 합니다.
 #### EBS 계정으로만 로그인이 가능합니다. (소셜로그인 미지원)
-#### 일부 학생들에게서 로그인이 되지 않는 오류가 보고되었습니다. 파악 중에 있습니다.
+
 ChangeLog : https://github.com/devITae/EBSOCProgressViewer/releases  
 
 
