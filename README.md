@@ -2,7 +2,7 @@
 EBS 온라인 클래스 진도율을 일괄적으로 조회/계산할 수 있는 프로그램입니다.  
 진도율로 출결관리를 하는 학생들을 위해 제작되었습니다.  
 
-### 최신버전 : v2.1
+### 최신버전 : v2.1 (Build 200419)
 
 ## [다운로드 (Download)](https://github.com/devITae/EBSOCProgressViewer/releases/download/2.1/EBSOCPro2.1.exe)
 ![최초 실행시](./img/first_notice.png)
