@@ -2,5 +2,5 @@ Lastest(v2.01.0)
 Developer(ITae)
 UpdateLink(https://github.com/devITae/EBSOCProgressViewer/releases/download/2.1/EBSOCPro2.1.exe)
 
-공지사항/있음
-NotiMent(공지사항 테스트)
+공지사항있음
+NotiMent(테스트" & vbCrLf & "줄바꿈)
