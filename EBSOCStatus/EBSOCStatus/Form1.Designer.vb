@@ -1,9 +1,9 @@
-﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()> _
+﻿<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
 Partial Class Form1
     Inherits System.Windows.Forms.Form
 
     'Form은 Dispose를 재정의하여 구성 요소 목록을 정리합니다.
-    <System.Diagnostics.DebuggerNonUserCode()> _
+    <System.Diagnostics.DebuggerNonUserCode()>
     Protected Overrides Sub Dispose(ByVal disposing As Boolean)
         Try
             If disposing AndAlso components IsNot Nothing Then
@@ -20,7 +20,7 @@ Partial Class Form1
     '참고: 다음 프로시저는 Windows Form 디자이너에 필요합니다.
     '수정하려면 Windows Form 디자이너를 사용하십시오.  
     '코드 편집기에서는 수정하지 마세요.
-    <System.Diagnostics.DebuggerStepThrough()> _
+    <System.Diagnostics.DebuggerStepThrough()>
     Private Sub InitializeComponent()
         Dim resources As System.ComponentModel.ComponentResourceManager = New System.ComponentModel.ComponentResourceManager(GetType(Form1))
         Me.IDBox = New System.Windows.Forms.TextBox()
@@ -33,7 +33,6 @@ Partial Class Form1
         Me.CourseHeader = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.ProgressHeader = CType(New System.Windows.Forms.ColumnHeader(), System.Windows.Forms.ColumnHeader)
         Me.startNokori = New System.Windows.Forms.Button()
-        Me.Label1 = New System.Windows.Forms.Label()
         Me.SCodeBox = New System.Windows.Forms.TextBox()
         Me.Label2 = New System.Windows.Forms.Label()
         Me.IDSaveBox = New System.Windows.Forms.CheckBox()
@@ -42,8 +41,8 @@ Partial Class Form1
         Me.Label4 = New System.Windows.Forms.Label()
         Me.lrnType = New System.Windows.Forms.ComboBox()
         Me.RichTextBox1 = New System.Windows.Forms.RichTextBox()
-        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.Label3 = New System.Windows.Forms.Label()
+        Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
         Me.SuspendLayout()
         '
@@ -66,6 +65,7 @@ Partial Class Form1
         '
         'LoginBtn
         '
+        Me.LoginBtn.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.LoginBtn.Location = New System.Drawing.Point(157, 101)
         Me.LoginBtn.Name = "LoginBtn"
         Me.LoginBtn.Size = New System.Drawing.Size(88, 56)
@@ -93,6 +93,7 @@ Partial Class Form1
         '
         Me.StatusList.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ClassHeader, Me.CourseHeader, Me.ProgressHeader})
         Me.StatusList.Enabled = False
+        Me.StatusList.FullRowSelect = True
         Me.StatusList.Location = New System.Drawing.Point(262, 72)
         Me.StatusList.Name = "StatusList"
         Me.StatusList.Size = New System.Drawing.Size(641, 462)
@@ -108,16 +109,18 @@ Partial Class Form1
         'CourseHeader
         '
         Me.CourseHeader.Text = "강의명"
-        Me.CourseHeader.Width = 326
+        Me.CourseHeader.Width = 312
         '
         'ProgressHeader
         '
+        Me.ProgressHeader.Tag = "Numberic"
         Me.ProgressHeader.Text = "진도율"
         Me.ProgressHeader.Width = 90
         '
         'startNokori
         '
         Me.startNokori.Enabled = False
+        Me.startNokori.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.startNokori.Font = New System.Drawing.Font("Noto Sans CJK KR Regular", 9.75!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
         Me.startNokori.Location = New System.Drawing.Point(825, 18)
         Me.startNokori.Name = "startNokori"
@@ -125,16 +128,6 @@ Partial Class Form1
         Me.startNokori.TabIndex = 7
         Me.startNokori.Text = "새로고침"
         Me.startNokori.UseVisualStyleBackColor = True
-        '
-        'Label1
-        '
-        Me.Label1.AutoSize = True
-        Me.Label1.Font = New System.Drawing.Font("Noto Sans CJK KR Regular", 20.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(128, Byte))
-        Me.Label1.Location = New System.Drawing.Point(56, 18)
-        Me.Label1.Name = "Label1"
-        Me.Label1.Size = New System.Drawing.Size(360, 40)
-        Me.Label1.TabIndex = 9
-        Me.Label1.Text = "EBS OnlineClass 진도율 뷰어"
         '
         'SCodeBox
         '
@@ -147,7 +140,7 @@ Partial Class Form1
         'Label2
         '
         Me.Label2.AutoSize = True
-        Me.Label2.Font = New System.Drawing.Font("맑은 고딕", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
+        Me.Label2.Font = New System.Drawing.Font("맑은 고딕 Semilight", 11.25!, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, CType(129, Byte))
         Me.Label2.Location = New System.Drawing.Point(15, 72)
         Me.Label2.Name = "Label2"
         Me.Label2.Size = New System.Drawing.Size(69, 20)
@@ -166,6 +159,7 @@ Partial Class Form1
         '
         'SCodeFind
         '
+        Me.SCodeFind.FlatStyle = System.Windows.Forms.FlatStyle.System
         Me.SCodeFind.Location = New System.Drawing.Point(188, 72)
         Me.SCodeFind.Name = "SCodeFind"
         Me.SCodeFind.Size = New System.Drawing.Size(57, 21)
@@ -205,23 +199,14 @@ Partial Class Form1
         '
         'RichTextBox1
         '
+        Me.RichTextBox1.BackColor = System.Drawing.Color.White
         Me.RichTextBox1.Location = New System.Drawing.Point(262, 540)
         Me.RichTextBox1.Name = "RichTextBox1"
         Me.RichTextBox1.ReadOnly = True
         Me.RichTextBox1.Size = New System.Drawing.Size(641, 57)
         Me.RichTextBox1.TabIndex = 18
-        Me.RichTextBox1.Text = "※ 진도율은 프로그램 내에서 진행된 자체적인 계산입니다." & Global.Microsoft.VisualBasic.ChrW(10) & "※ EBS의 DB오류로 인해 학습완료 임에도 100%로 표기되지 않는 경우가 존재합니다." &
-    "" & Global.Microsoft.VisualBasic.ChrW(10) & "※ 조회 내용이 잘못되었다면, 새로고침하거나 홈페이지 내에서 확인해주세요."
-        '
-        'PictureBox1
-        '
-        Me.PictureBox1.Image = Global.EBSOCStatus.My.Resources.Resources.icon3
-        Me.PictureBox1.Location = New System.Drawing.Point(16, 15)
-        Me.PictureBox1.Name = "PictureBox1"
-        Me.PictureBox1.Size = New System.Drawing.Size(40, 46)
-        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
-        Me.PictureBox1.TabIndex = 19
-        Me.PictureBox1.TabStop = False
+        Me.RichTextBox1.Text = "※ 진도율은 프로그램 내에서 진행된 자체적인 계산입니다. (완강수 / 목차수 * 100)" & Global.Microsoft.VisualBasic.ChrW(10) & "※ 리스트의 열(Column)을 눌러 오름/내림차순 정렬" &
+    "이 가능합니다." & Global.Microsoft.VisualBasic.ChrW(10) & "※ 조회 내용이 잘못되었다면, 새로고침하거나 홈페이지에서 다시 확인해주세요."
         '
         'Label3
         '
@@ -230,7 +215,17 @@ Partial Class Form1
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(141, 12)
         Me.Label3.TabIndex = 20
-        Me.Label3.Text = "버전: v2.1 (Build 200419)"
+        Me.Label3.Text = "버전: v2.2 (Build 200425)"
+        '
+        'PictureBox1
+        '
+        Me.PictureBox1.Image = Global.EBSOCStatus.My.Resources.Resources.title
+        Me.PictureBox1.Location = New System.Drawing.Point(16, 12)
+        Me.PictureBox1.Name = "PictureBox1"
+        Me.PictureBox1.Size = New System.Drawing.Size(367, 54)
+        Me.PictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom
+        Me.PictureBox1.TabIndex = 19
+        Me.PictureBox1.TabStop = False
         '
         'Form1
         '
@@ -249,7 +244,6 @@ Partial Class Form1
         Me.Controls.Add(Me.IDSaveBox)
         Me.Controls.Add(Me.Label2)
         Me.Controls.Add(Me.SCodeBox)
-        Me.Controls.Add(Me.Label1)
         Me.Controls.Add(Me.startNokori)
         Me.Controls.Add(Me.StatusList)
         Me.Controls.Add(Me.ClassList)
@@ -261,7 +255,7 @@ Partial Class Form1
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "EBS OnlineClass 진도율 뷰어 v2.1"
+        Me.Text = "EBS OnlineClass 진도율 뷰어 v2.2"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
@@ -278,7 +272,6 @@ Partial Class Form1
     Friend WithEvents ProgressHeader As ColumnHeader
     Friend WithEvents ClassHeader As ColumnHeader
     Friend WithEvents startNokori As Button
-    Friend WithEvents Label1 As Label
     Friend WithEvents SCodeBox As TextBox
     Friend WithEvents Label2 As Label
     Friend WithEvents IDSaveBox As CheckBox

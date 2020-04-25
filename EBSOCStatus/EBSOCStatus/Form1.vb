@@ -3,8 +3,9 @@ Public Class Form1
     Public http, http2 As Object
     Public U1, UrlList(), First, SAML0, SAML1, Shost, MainH, LType As String
     Dim nowVersion As String
+    Dim sortColumn As Integer = -1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        nowVersion = "2.01.0" '버전 가운데는 두자리로!
+        nowVersion = "2.02.0" '버전 가운데는 두자리로!
         lrnType.Text = "학습중"
         LType = "LRN"
         CheckUpdate(nowVersion)
@@ -88,7 +89,7 @@ Public Class Form1
             ElseIf InStr(Temp, "로그인을 해주세요.") Then
                 MsgBox("아이디 또는 비밀번호 오류.", MsgBoxStyle.Exclamation, "로그인 오류")
                 Call Enable_Control(True)
-                IDBox.Focus()
+                PWBox.Focus()
             Else
                 MsgBox("로그인 시도 실패", MsgBoxStyle.Exclamation, "로그인 오류")
                 Call Enable_Control(True)
@@ -115,6 +116,9 @@ Public Class Form1
     Private Sub CallClassList()
         '클래스 리스트 조회
         Dim html, Cut, Cname(), CUrl() As String
+        ClassList.Items.Clear() '리스트뷰 초기화
+        U1 = "" '클래스 URL 초기화
+
         http.Open("GET", "https://" & Shost & ".ebssw.kr/onlineClass/reqst/onlineClassReqstInfoView.do")
         http.Send()
         http.WaitForResponse()
@@ -137,10 +141,9 @@ Public Class Form1
             Next i
             Call CallNokori() '자동 새로고침
         Catch ex As Exception
-            MsgBox("불러오는 중 오류가 발생했습니다.")
+            MsgBox("불러오는 중 오류가 발생했습니다." & vbCrLf & ex.ToString)
         End Try
     End Sub
-
     Private Sub lrnType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lrnType.SelectedIndexChanged
         If lrnType.Text = "학습중" Then
             LType = "LRN"
@@ -153,16 +156,16 @@ Public Class Form1
             LType = "LRN"
         End If
     End Sub
-
     Private Sub CallNokori()
         '진행중인 강의와 진도율 조회
-        Dim html, html2, MyUrl, Cutting, Lname(), NowUrl, ClassName, Lend(), Ltotal, Lcontext() As String
-        Dim Lcount, Ltot As String
+        Dim html, html2, MyUrl, Cutting, Lcount, NowUrl, ClassName, Ltotal, ComCount As String
+        Dim Lname(), Lend(), Lcontext(), alctcrSn(), stepSn() As String
 
         startNokori.Enabled = False '새로고침 비활성화
         lrnType.Enabled = False '콤보박스 비활성화
         UrlList = Split(U1, "|") 'URL을 리스트로 정렬
         StatusList.Items.Clear() '리스트 초기화
+        ComCount = 0 '100% 카운트 초기화
 
         For i = 1 To UBound(UrlList)
             NowUrl = "https://" & UrlList(i) '클래스 URL
@@ -183,24 +186,30 @@ Public Class Form1
             http.WaitForResponse()
             html2 = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
             'Console.WriteLine("<------------------------>" & vbCrLf & html2)
-            Cutting = Split(html2, "list al")(1)
+            Cutting = Split(html2, "list al")(1) '리스트 부분 컷
 
             If InStr(Cutting, "강좌가 없습니다.") Then
                 '넘어가욧!
             Else
                 'Console.WriteLine(Cutting) 
-                Lname = Split(Cutting, "tit bold") 'for문에서 i가 추가되면 새롭게 string을 찾음
-                Lcontext = Split(Cutting, "tit bold")
+
+                'for문에서 i가 추가되면 새롭게 string을 찾음
+                Lname = Split(Cutting, "tit bold") '강의 제목 검출용
+                Lcontext = Split(Cutting, "tit bold") '목차 검출용
+                alctcrSn = Split(Cutting, "class=""info""") '강의 주소 검출용 1
+                stepSn = Split(Cutting, "class=""info""") '강의 주소 검출용2
 
                 For i2 = 1 To UBound(Lname)
                     Lname(i2) = Split(Split(Lname(i2), "tit_txt"">")(1), "</span>")(0).Replace(vbTab, "") '강의 제목
                     Lcontext(i2) = Split(Split(Lcontext(i2), "class=""way""")(1), "</div>")(0) '목차 부분만 따오기
+                    alctcrSn(i2) = Split(Split(alctcrSn(i2), "showLctrumView('")(1), "',")(0) 'alctcrSn 값
+                    stepSn(i2) = Split(Split(stepSn(i2), alctcrSn(i2) & "', '")(1), "',")(0) 'stepSn 값
+
                     Lend = Split(Lcontext(i2), "<a href") 'a 부분 반복 ㄱㄱ
 
                     'Console.WriteLine("<------------------------>" & vbCrLf & Lcontext(i2)) '강의 당 목차 파싱 출력
 
-                    Lcount = 0
-                    Ltot = 0 '카운트 초기화 
+                    Lcount = 0 '카운트 초기화 
                     For i4 = 1 To UBound(Lend) 'end 검출
                         Lend(i4) = Split(Split(Lend(i4), "class=")(1), ">")(0) '강의 목차 추출
                         If InStr(Lend(i4), "end") Then 'class="end">
@@ -216,20 +225,31 @@ Public Class Form1
                     ' MsgBox(strPer)
                     'class="end" 개수 검출 -> 강의 개수 강좌구성 : 1개 강의
 
+                    If strPer = "100%" Then '100%인데 학습중으로 뜰때
+                        http.Open("GET", NowUrl & "/hmpg/hmpgLctrumView.do?menuSn=" & MyUrl & "&alctcrSn=" & alctcrSn(i2) & "&stepSn=" & stepSn(i2))
+                        '/클래스네임/hmpg/hmpgLctrumView.do?menuSn="& MyUrl & "&alctcrSn=값&stepSn=값  -> 목차페이지 주소
+                        http.Send()
+                        http.WaitForResponse()
+                        ComCount = ComCount + 1 '100%인 항목 카운트
+                    End If
+
                     Dim CListDesu As New ListViewItem(ClassName, i2 - 1) '과목 제목
                     StatusList.Items.AddRange(New ListViewItem() {CListDesu})
                     CListDesu.SubItems.Add(Lname(i2)) '진도 이름
                     CListDesu.SubItems.Add(strPer) '진도율
-                    Application.DoEvents()
-                    Lcount = 0
-                    Ltot = 0 '카운트 초기화 
+                    Application.DoEvents() '렉 방지
+                    Lcount = 0 '카운트 초기화 
                 Next i2
             End If
-            Application.DoEvents()
+            Application.DoEvents() '렉방지
         Next i
         '로딩완료 이후
         startNokori.Enabled = True '새로고침 버튼 활성화
         lrnType.Enabled = True '콤보박스 활성화
+        If LType = "LRN" And ComCount <> 0 Then
+            MsgBox(ComCount & "개의 강의가 학습완료 처리되었습니다." & vbCrLf & "새로고침을 시도합니다!")
+            Call CallNokori() '새로고침
+        End If
     End Sub
     Private Sub IDSaveBox_CheckedChanged(sender As Object, e As EventArgs) Handles IDSaveBox.CheckedChanged
         '아이디저장 체크시 상태저장 ㄱㄱ
@@ -247,24 +267,54 @@ Public Class Form1
     End Sub
 
     Private Sub startNokori_Click(sender As Object, e As EventArgs) Handles startNokori.Click
-        Call CallNokori() '새로고침
+        Try
+            Call CallNokori() '새로고침
+        Catch ex As IndexOutOfRangeException
+            MsgBox("로그인 세션이 만료되어 재로그인을 시도합니다.", MsgBoxStyle.Exclamation, "알림")
+            Call Login()
+        Catch ex2 As System.Runtime.InteropServices.COMException
+            MsgBox("서버와의 연결을 실패했습니다.", MsgBoxStyle.Exclamation, "알림")
+        Catch ex3 As Exception
+            MsgBox(ex3.ToString, MsgBoxStyle.Exclamation, "에러")
+        End Try
     End Sub
 
     Private Sub StatusList_ColumnClick(sender As Object, e As ColumnClickEventArgs) Handles StatusList.ColumnClick
-        '리스트뷰에서 제목열 클릭 시 정렬
-        If StatusList.Columns(e.Column).ListView.Sorting = SortOrder.Descending Then
-            StatusList.Columns(e.Column).ListView.Sorting = SortOrder.Ascending
-        ElseIf StatusList.Columns(e.Column).ListView.Sorting = SortOrder.Ascending Then
-            StatusList.Columns(e.Column).ListView.Sorting = SortOrder.Descending
+        '현재 열이 이전에 클릭한 열이 아닌 경우
+        If e.Column <> sortColumn Then
+            '정렬 열을 새 열로 설정.
+            sortColumn = e.Column
+            '오름차순 정렬로 기본 설정
+            Me.StatusList.Sorting = SortOrder.Ascending
         Else
-            StatusList.Columns(e.Column).ListView.Sorting = SortOrder.Ascending
+            '정렬 순서를 바꿈
+            If StatusList.Sorting = SortOrder.Ascending Then
+                Me.StatusList.Sorting = SortOrder.Descending
+            Else
+                Me.StatusList.Sorting = SortOrder.Ascending
+            End If
         End If
+
+        'ListViewItemSorter 속성을 새로운 ListViewSort 개체로 설정
+        Me.StatusList.ListViewItemSorter = New ListViewSort(e.Column, StatusList.Sorting)
+        '수동으로 정렬하기 위한 정렬 방법을 호출
+        StatusList.Sort()
     End Sub
+    'Private Sub ClassList_ColumnClick(sender As Object, e As ColumnClickEventArgs) Handles ClassList.ColumnClick
+    '    '리스트뷰에서 제목열 클릭 시 정렬
+    '    If ClassList.Columns(e.Column).ListView.Sorting = SortOrder.Descending Then
+    '        ClassList.Columns(e.Column).ListView.Sorting = SortOrder.Ascending
+    '    ElseIf StatusList.Columns(e.Column).ListView.Sorting = SortOrder.Ascending Then
+    '        ClassList.Columns(e.Column).ListView.Sorting = SortOrder.Descending
+    '    Else
+    '        ClassList.Columns(e.Column).ListView.Sorting = SortOrder.Ascending
+    '    End If
+    'End Sub
     Public Sub CheckUpdate(nowVer As String)
         '업데이트 확인
         Dim HTML, lastest, upLink, IU, notice As String
         http2 = CreateObject("WinHttp.WinHttpRequest.5.1")
-        http2.Open("GET", "https://github.com/devITae/EBSOCProgressViewer/blob/master/img/version")
+        http2.Open("GET", "https://raw.githubusercontent.com/devITae/EBSOCProgressViewer/master/img/version")
         http2.Send()
         http2.WaitForResponse()
         HTML = System.Text.Encoding.UTF8.GetString(http2.ResponseBody)
@@ -279,7 +329,7 @@ Public Class Form1
             End If
         ElseIf lastest > nowVersion Then
             '업데이트 알림
-            IU = MsgBox("새로운 버전이 감지되었습니다!" & vbCrLf & "지금 업데이트 하시겠습니까?", vbYesNo)
+            IU = MsgBox("새로운 버전이 감지되었습니다!" & vbCrLf & "지금 업데이트 하시겠습니까?", vbYesNo, "업데이트 알림")
             If IU = vbYes Then
                 System.Diagnostics.Process.Start(upLink)
             Else

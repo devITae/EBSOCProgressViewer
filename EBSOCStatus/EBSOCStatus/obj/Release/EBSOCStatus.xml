@@ -27,5 +27,10 @@ EBSOCStatus
   System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
 </summary>
 </member>
+<member name="P:EBSOCStatus.My.Resources.Resources.title">
+<summary>
+  System.Drawing.Bitmap 형식의 지역화된 리소스를 찾습니다.
+</summary>
+</member>
 </members>
 </doc>

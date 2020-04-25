@@ -36,9 +36,8 @@
 
         Try
             For i = 1 To UBound(SchHubo)
-                SchHubo(i) = Split(Split(SchHubo(i), "schulCcode:'")(1), "',host")(0)
-                host(i) = Split(Split(host(i), "host:'")(1), "'}")(0)
-
+                SchHubo(i) = Split(Split(SchHubo(i), "schulCcode:'")(1), "',host")(0) '학교코드
+                host(i) = Split(Split(host(i), "host:'")(1), "'}")(0) 'Host
 
                 Dim HuboListDesu As New ListViewItem(SchNameExtract(SchHubo(i), host(i)), i - 1)
                 Result.Items.AddRange(New ListViewItem() {HuboListDesu}) '학교이름
