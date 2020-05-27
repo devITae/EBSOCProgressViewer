@@ -5,7 +5,7 @@ Public Class Form1
     Dim nowVersion As String
     Dim sortColumn As Integer = -1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        nowVersion = "2.02.0" '버전 가운데는 두자리로!
+        nowVersion = "2.03.0" '버전 가운데는 두자리로!
         lrnType.Text = "학습중"
         LType = "LRN"
         CheckUpdate(nowVersion)
@@ -60,6 +60,7 @@ Public Class Form1
             SCodeBox.Focus()
         Else
             '로그인 시도
+            Me.Cursor = Cursors.WaitCursor '로딩 커서
             ' MsgBox("Shost: " & Shost & vbCrLf & "MainH: " & MainH)
             http.Open("POST", "https://" & Shost & ".ebssw.kr/sso")
             http.SetRequestHeader("Referer", "https://" & MainH & ".ebssw.kr/sso/loginView.do?loginType=onlineClass")
@@ -96,6 +97,7 @@ Public Class Form1
                 IDBox.Focus()
             End If
         End If
+        Me.Cursor = Cursors.Default '커서 디폴트로 복귀
     End Sub
     Private Sub Enable_Control(bool As Boolean)
         IDBox.Enabled = bool
@@ -151,10 +153,24 @@ Public Class Form1
         ElseIf lrnType.Text = "학습완료" Then
             LType = "COMPT"
             Call CallNokori()
+        ElseIf lrnType.Text = "미수강중" Then
+            Call CallNotEnrolled()
         Else
             lrnType.Text = "학습중"
             LType = "LRN"
         End If
+    End Sub
+    Private Sub StatusList_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles StatusList.MouseDoubleClick
+        Dim i As Integer
+        Dim selectURL As String
+        With Me.StatusList
+            For i = 0 To .Items.Count - 1
+                If .Items(i).Selected = True Then
+                    selectURL = .Items(i).SubItems(3).Text
+                    System.Diagnostics.Process.Start(selectURL) '브라우저로 보기
+                End If
+            Next
+        End With
     End Sub
     Private Sub CallNokori()
         '진행중인 강의와 진도율 조회
@@ -166,6 +182,7 @@ Public Class Form1
         UrlList = Split(U1, "|") 'URL을 리스트로 정렬
         StatusList.Items.Clear() '리스트 초기화
         ComCount = 0 '100% 카운트 초기화
+        Me.Cursor = Cursors.WaitCursor '로딩 커서
 
         For i = 1 To UBound(UrlList)
             NowUrl = "https://" & UrlList(i) '클래스 URL
@@ -237,6 +254,7 @@ Public Class Form1
                     StatusList.Items.AddRange(New ListViewItem() {CListDesu})
                     CListDesu.SubItems.Add(Lname(i2)) '진도 이름
                     CListDesu.SubItems.Add(strPer) '진도율
+                    CListDesu.SubItems.Add(NowUrl & "/hmpg/hmpgLctrumView.do?menuSn=" & MyUrl & "&alctcrSn=" & alctcrSn(i2) & "&stepSn=" & stepSn(i2)) '주소
                     Application.DoEvents() '렉 방지
                     Lcount = 0 '카운트 초기화 
                 Next i2
@@ -246,10 +264,54 @@ Public Class Form1
         '로딩완료 이후
         startNokori.Enabled = True '새로고침 버튼 활성화
         lrnType.Enabled = True '콤보박스 활성화
+        Me.Cursor = Cursors.Default '커서 디폴트로 복귀
         If LType = "LRN" And ComCount <> 0 Then
             MsgBox(ComCount & "개의 강의가 학습완료 처리되었습니다." & vbCrLf & "새로고침을 시도합니다!")
             Call CallNokori() '새로고침
         End If
+    End Sub
+    Private Sub CallNotEnrolled() '미수강중 목록 불러오기
+        Dim NowUrl, html, ClassName, Cutting, Lname(), Lurl(), urlpage As String
+        startNokori.Enabled = False '새로고침 비활성화
+        lrnType.Enabled = False '콤보박스 비활성화
+        StatusList.Items.Clear() '리스트 초기화
+        Me.Cursor = Cursors.WaitCursor '로딩 커서
+
+        For i = 1 To UBound(UrlList)
+            NowUrl = "https://" & UrlList(i) '클래스 URL
+            http.Open("GET", NowUrl)
+            http.Send()
+            http.WaitForResponse()
+            html = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
+            ClassName = Split(Split(html, "logo txt_grey"">")(1), "</a>")(0) '클래스 이름 추출
+
+            Cutting = Split(html, "learning_list")(1) '리스트 부분 컷
+            Lname = Split(Cutting, "tit bold") '강의 제목 검출용
+            Lurl = Split(Cutting, "<li class=""clearfix"">") '강의주소 검출용
+
+            For i2 = 1 To UBound(Lurl)
+                Lname(i2) = Split(Split(Lname(i2), """>")(1), "</p>")(0).Replace(vbTab, "") '강의 제목
+                Lurl(i2) = Split(Split(Lurl(i2), "<a href=""")(1), """>")(0) '주소 부분만 따오기
+                http.Open("GET", "https://" & Shost & ".ebssw.kr" & Lurl(i2))
+                http.Send()
+                http.WaitForResponse()
+                urlpage = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
+                If InStr(urlpage, "btn_enrol") Then
+                    Dim NotEnrollList As New ListViewItem(ClassName, i2 - 1) '과목 제목
+                    StatusList.Items.AddRange(New ListViewItem() {NotEnrollList})
+                    NotEnrollList.SubItems.Add(Lname(i2)) '진도 이름
+                    NotEnrollList.SubItems.Add("미수강중") '미수강 표시
+                    NotEnrollList.SubItems.Add("https://" & Shost & ".ebssw.kr" & Lurl(i2)) '강의 주소
+                    Application.DoEvents() '렉방지
+                Else
+                End If
+                Application.DoEvents() '렉방지
+            Next i2
+            Application.DoEvents() '렉방지
+        Next i
+        startNokori.Enabled = True '새로고침 버튼 활성화
+        lrnType.Enabled = True '콤보박스 활성화 
+        Me.Cursor = Cursors.Default '커서 디폴트로 복귀
     End Sub
     Private Sub IDSaveBox_CheckedChanged(sender As Object, e As EventArgs) Handles IDSaveBox.CheckedChanged
         '아이디저장 체크시 상태저장 ㄱㄱ
@@ -337,7 +399,7 @@ Public Class Form1
             End If
         Else
             '지금 버전이 최신보다 클 때
-            MsgBox("개발중인 테스트 버전 입니다.", MsgBoxStyle.Exclamation, "Welcome! Beta Tester.")
+            MsgBox("개발중인 테스트 버전 입니다." & vbCrLf & "최신: " & lastest & " / 현재: " & nowVer, MsgBoxStyle.Exclamation, "Welcome! Beta Tester.")
         End If
     End Sub
 End Class

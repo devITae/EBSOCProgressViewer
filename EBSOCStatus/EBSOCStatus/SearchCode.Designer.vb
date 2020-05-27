@@ -52,8 +52,10 @@ Partial Class SearchCode
         'Result
         '
         Me.Result.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1, Me.ColumnHeader2})
+        Me.Result.FullRowSelect = True
         Me.Result.HeaderStyle = System.Windows.Forms.ColumnHeaderStyle.Nonclickable
         Me.Result.Location = New System.Drawing.Point(12, 62)
+        Me.Result.MultiSelect = False
         Me.Result.Name = "Result"
         Me.Result.Size = New System.Drawing.Size(325, 243)
         Me.Result.TabIndex = 3

@@ -77,6 +77,7 @@ Partial Class Form1
         '
         Me.ClassList.Columns.AddRange(New System.Windows.Forms.ColumnHeader() {Me.ColumnHeader1})
         Me.ClassList.Enabled = False
+        Me.ClassList.FullRowSelect = True
         Me.ClassList.Location = New System.Drawing.Point(16, 185)
         Me.ClassList.Name = "ClassList"
         Me.ClassList.Size = New System.Drawing.Size(229, 349)
@@ -191,7 +192,7 @@ Partial Class Form1
         Me.lrnType.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList
         Me.lrnType.Enabled = False
         Me.lrnType.FormattingEnabled = True
-        Me.lrnType.Items.AddRange(New Object() {"학습중", "학습완료"})
+        Me.lrnType.Items.AddRange(New Object() {"학습중", "학습완료", "미수강중"})
         Me.lrnType.Location = New System.Drawing.Point(724, 46)
         Me.lrnType.Name = "lrnType"
         Me.lrnType.Size = New System.Drawing.Size(95, 20)
@@ -205,8 +206,8 @@ Partial Class Form1
         Me.RichTextBox1.ReadOnly = True
         Me.RichTextBox1.Size = New System.Drawing.Size(641, 57)
         Me.RichTextBox1.TabIndex = 18
-        Me.RichTextBox1.Text = "※ 진도율은 프로그램 내에서 진행된 자체적인 계산입니다. (완강수 / 목차수 * 100)" & Global.Microsoft.VisualBasic.ChrW(10) & "※ 리스트의 열(Column)을 눌러 오름/내림차순 정렬" &
-    "이 가능합니다." & Global.Microsoft.VisualBasic.ChrW(10) & "※ 조회 내용이 잘못되었다면, 새로고침하거나 홈페이지에서 다시 확인해주세요."
+        Me.RichTextBox1.Text = "※ 진도율은 프로그램 내에서 진행된 자체적인 계산입니다. (완강수 / 목차수 * 100)" & Global.Microsoft.VisualBasic.ChrW(10) & "※ 열(Column) 클릭 : 오름/내림차순  ※행(Ro" &
+    "w) 더블클릭 : 기본 브라우저로 열기" & Global.Microsoft.VisualBasic.ChrW(10) & "※ 조회 내용이 잘못되었다면, 새로고침하거나 홈페이지에서 다시 확인해주세요."
         '
         'Label3
         '
@@ -215,7 +216,7 @@ Partial Class Form1
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(141, 12)
         Me.Label3.TabIndex = 20
-        Me.Label3.Text = "버전: v2.2 (Build 200425)"
+        Me.Label3.Text = "버전: v2.3 (Build 200528)"
         '
         'PictureBox1
         '
@@ -255,7 +256,7 @@ Partial Class Form1
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "EBS OnlineClass 진도율 뷰어 v2.2"
+        Me.Text = "EBS OnlineClass 진도율 뷰어 v2.3"
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
         Me.ResumeLayout(False)
         Me.PerformLayout()
