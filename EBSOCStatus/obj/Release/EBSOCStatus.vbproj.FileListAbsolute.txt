@@ -10,3 +10,16 @@ E:\Dev\EBSOCStatus\EBSOCStatus\obj\Release\EBSOCStatus.xml
 E:\Dev\EBSOCStatus\EBSOCStatus\obj\Release\EBSOCStatus.pdb
 E:\Dev\EBSOCStatus\EBSOCStatus\obj\Release\EBSOCStatus.SearchCode.resources
 E:\Dev\EBSOCStatus\EBSOCStatus\obj\Release\EBSOCStatus.vbprojResolveAssemblyReference.cache
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\bin\Release\EBSOCStatus.exe.config
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\bin\Release\EBSOCStatus.exe
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\bin\Release\EBSOCStatus.pdb
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\bin\Release\EBSOCStatus.xml
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.Form1.resources
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.Resources.resources
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.SearchCode.resources
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.vbproj.GenerateResource.cache
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.vbproj.CoreCompileInputs.cache
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.exe
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.xml
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.pdb
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.vbprojAssemblyReference.cache

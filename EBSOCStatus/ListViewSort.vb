@@ -18,8 +18,15 @@ Public Class ListViewSort
     Public Function Compare(x As Object, y As Object) As Integer Implements IComparer.Compare
         Dim returnVal As Integer
         Try
+
+            '2개의 DateTime 오브젝트로 파싱 시도
+            Dim firstDate As System.DateTime = DateTime.Parse(CType(x, ListViewItem).SubItems(col).Text)
+            Dim secondDate As System.DateTime = DateTime.Parse(CType(y, ListViewItem).SubItems(col).Text)
+
             If IsDate(CType(x, ListViewItem).SubItems(col).Text) And IsDate(CType(y, ListViewItem).SubItems(col).Text) Then
-                returnVal = 1
+                'returnVal = 1
+                returnVal = DateTime.Compare(firstDate, secondDate) '날짜로 비교
+
             Else
                 If IsNumeric(CType(x, ListViewItem).SubItems(col).Text) And IsNumeric(CType(y, ListViewItem).SubItems(col).Text) Then
                     '숫자로 비교

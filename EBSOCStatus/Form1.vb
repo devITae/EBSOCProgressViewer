@@ -5,29 +5,34 @@ Public Class Form1
     Dim nowVersion As String
     Dim sortColumn As Integer = -1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        nowVersion = "2.03.1" '버전 가운데는 두자리로!
+        nowVersion = "2.04.0" '버전 가운데는 두자리로!
         lrnType.Text = "학습중"
         LType = "LRN"
-        CheckUpdate(nowVersion)
-        SCodeBox.Text = My.Settings.SchCode
-        IDBox.Text = My.Settings.ID
-        IDSaveBox.Checked = My.Settings.IDSave
-        Shost = "hoc30" '임시방편
+        Try
+            CheckUpdate(nowVersion)
+            SCodeBox.Text = My.Settings.SchCode
+            IDBox.Text = My.Settings.ID
+            IDSaveBox.Checked = My.Settings.IDSave
+            Shost = "hoc30" '임시방편
 
-        StatusList.Enabled = False
-        ClassList.Enabled = False
-        startNokori.Enabled = False
-        lrnType.Enabled = False
+            StatusList.Enabled = False
+            ClassList.Enabled = False
+            startNokori.Enabled = False
+            lrnType.Enabled = False
 
-        http = CreateObject("WinHttp.WinHttpRequest.5.1")
-        http.Open("GET", "https://ebssw.kr/sso/loginView.do?loginType=onlineClass")
-        'http.Send("c=LI&SAMLRequest=PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c2FtbDJwOkF1dGhuUmVxdWVzdCAgICB4bWxuczpzYW1sMnA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgICAgICAgIElEPSJob2MyNC5lYnNzdy5rci0xNTg2OTY0MDcxNjUxIiAgICAgICAgVmVyc2lvbj0iMi4wIiAgICAgICAgSXNzdWVJbnN0YW50PSIyMDIwLTA0LTE1VDE1OjIxOjExLjY1MVoiICAgICAgICBBc3NlcnRpb25Db25zdW1lclNlcnZpY2VVUkw9Imh0dHBzOi8vaG9jMjQuZWJzc3cua3Ivc3NvIiAgICAgICAgRGVzdGluYXRpb249Imh0dHBzOi8vc3NvLmVicy5jby5rci9pZHAvcHJvZmlsZS9TQU1MMi9QT1NULVJlZGlyZWN0L1NTTyI+PHNhbWwyOklzc3VlciB4bWxuczpzYW1sMj0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmFzc2VydGlvbiI+aG9jMjQuZWJzc3cua3I8L3NhbWwyOklzc3Vlcj48L3NhbWwycDpBdXRoblJlcXVlc3Q+&j_returnurl=https%3A%2F%2Fhoc.ebssw.kr%2FonlineClass%2Freqst%2FonlineClassReqstInfoView.do&j_loginurl=https%3A%2F%2Fhoc24.ebssw.kr%2Fsso%2FloginView.do&hmpgId=&userSeCode=&loginType=onlineClass")
-        http.Send()
-        http.WaitForResponse()
 
-        First = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
-        SAML0 = Split(Split(First, "name=""SAMLRequest")(1), "/>")(0)
-        SAML1 = Split(Split(SAML0, "value=""")(1), """")(0) 'SAMLRequest 추출
+            http = CreateObject("WinHttp.WinHttpRequest.5.1")
+            http.Open("GET", "https://ebssw.kr/sso/loginView.do?loginType=onlineClass")
+            'http.Send("c=LI&SAMLRequest=PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiPz48c2FtbDJwOkF1dGhuUmVxdWVzdCAgICB4bWxuczpzYW1sMnA9InVybjpvYXNpczpuYW1lczp0YzpTQU1MOjIuMDpwcm90b2NvbCIgICAgICAgIElEPSJob2MyNC5lYnNzdy5rci0xNTg2OTY0MDcxNjUxIiAgICAgICAgVmVyc2lvbj0iMi4wIiAgICAgICAgSXNzdWVJbnN0YW50PSIyMDIwLTA0LTE1VDE1OjIxOjExLjY1MVoiICAgICAgICBBc3NlcnRpb25Db25zdW1lclNlcnZpY2VVUkw9Imh0dHBzOi8vaG9jMjQuZWJzc3cua3Ivc3NvIiAgICAgICAgRGVzdGluYXRpb249Imh0dHBzOi8vc3NvLmVicy5jby5rci9pZHAvcHJvZmlsZS9TQU1MMi9QT1NULVJlZGlyZWN0L1NTTyI+PHNhbWwyOklzc3VlciB4bWxuczpzYW1sMj0idXJuOm9hc2lzOm5hbWVzOnRjOlNBTUw6Mi4wOmFzc2VydGlvbiI+aG9jMjQuZWJzc3cua3I8L3NhbWwyOklzc3Vlcj48L3NhbWwycDpBdXRoblJlcXVlc3Q+&j_returnurl=https%3A%2F%2Fhoc.ebssw.kr%2FonlineClass%2Freqst%2FonlineClassReqstInfoView.do&j_loginurl=https%3A%2F%2Fhoc24.ebssw.kr%2Fsso%2FloginView.do&hmpgId=&userSeCode=&loginType=onlineClass")
+            http.Send()
+            http.WaitForResponse()
+
+            First = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
+            SAML0 = Split(Split(First, "name=""SAMLRequest")(1), "/>")(0)
+            SAML1 = Split(Split(SAML0, "value=""")(1), """")(0) 'SAMLRequest 추출
+        Catch ex As Exception
+            MsgBox("인터넷 또는 서버가 불안정합니다." & vbCrLf & "다시 시도 바랍니다.", MsgBoxStyle.Exclamation, "알림")
+        End Try
     End Sub
     Private Sub IDSaving() '아이디 저장 여부
         If My.Settings.IDSave = True Then
@@ -87,6 +92,7 @@ Public Class Form1
                 lrnType.Enabled = True
                 lrnType.Text = "학습중"
                 Call CallClassList()
+
             ElseIf InStr(Temp, "로그인을 해주세요.") Then
                 MsgBox("아이디 또는 비밀번호 오류.", MsgBoxStyle.Exclamation, "로그인 오류")
                 Call Enable_Control(True)
@@ -98,6 +104,30 @@ Public Class Form1
             End If
         End If
         Me.Cursor = Cursors.Default '커서 디폴트로 복귀
+    End Sub
+    Private Sub LoginCheck()
+        Dim Temp As String
+        Try
+            http.Open("GET", "https://" & Shost & ".ebssw.kr/onlineClass/search/onlineClassSearchView.do?schulCcode=" & SCodeBox.Text)
+            http.Send()
+            http.WaitForResponse()
+        Catch ex As IndexOutOfRangeException
+            MsgBox("로그인 세션이 만료되어 재로그인을 시도합니다.", MsgBoxStyle.Exclamation, "알림")
+            Call Login()
+        Catch ex2 As System.Runtime.InteropServices.COMException
+            MsgBox("서버와의 연결을 실패했습니다.", MsgBoxStyle.Exclamation, "알림")
+            startNokori.Enabled = True
+        Catch ex3 As Exception
+            MsgBox(ex3.ToString, MsgBoxStyle.Exclamation, "에러")
+        End Try
+
+        Temp = http.ResponseText
+        If InStr(Temp, IDBox.Text) Then
+            '넘어가욧!
+        Else
+            MsgBox("로그인 세션이 만료되어 재로그인을 시도합니다.", MsgBoxStyle.Exclamation, "알림")
+            Call Login()
+        End If
     End Sub
     Private Sub Enable_Control(bool As Boolean)
         IDBox.Enabled = bool
@@ -147,27 +177,138 @@ Public Class Form1
         End Try
     End Sub
     Private Sub lrnType_SelectedIndexChanged(sender As Object, e As EventArgs) Handles lrnType.SelectedIndexChanged
-        If lrnType.Text = "학습중" Then
-            LType = "LRN"
-            Call CallNokori()
-        ElseIf lrnType.Text = "학습완료" Then
-            LType = "COMPT"
-            Call CallNokori()
-        ElseIf lrnType.Text = "미수강중" Then
-            Call CallNotEnrolled()
-        Else
-            lrnType.Text = "학습중"
-            LType = "LRN"
-        End If
+        Try
+            If lrnType.Text = "학습중" Then
+                LType = "LRN"
+                StatusList.Size = New Size(848, 531)
+                Call CallNokori()
+            ElseIf lrnType.Text = "학습완료" Then
+                LType = "COMPT"
+                StatusList.Size = New Size(848, 531)
+                Call CallNokori()
+            ElseIf lrnType.Text = "미수강중" Then
+                StatusList.Size = New Size(848, 487)
+                EnrollPanel.Visible = True
+                Call CallNotEnrolled()
+            Else
+                lrnType.Text = "학습중"
+                LType = "LRN"
+                StatusList.Size = New Size(848, 531)
+            End If
+        Catch ex As IndexOutOfRangeException
+            MsgBox("로그인 세션이 만료되어 재로그인을 시도합니다.", MsgBoxStyle.Exclamation, "알림")
+            Call Login()
+        Catch ex2 As System.Runtime.InteropServices.COMException
+            MsgBox("서버와의 연결을 실패했습니다.", MsgBoxStyle.Exclamation, "알림")
+            startNokori.Enabled = True
+        Catch ex3 As Exception
+            MsgBox(ex3.ToString, MsgBoxStyle.Exclamation, "에러")
+        End Try
     End Sub
     Private Sub StatusList_MouseDoubleClick(sender As Object, e As MouseEventArgs) Handles StatusList.MouseDoubleClick
-        Dim i As Integer
-        Dim selectURL As String
+        Call EnrollCourse("one")
+    End Sub
+    Private Sub EnrollBtn_Click(sender As Object, e As EventArgs) Handles EnrollBtn.Click
+        Dim iCount As Integer
+        For I = 1 To StatusList.Items.Count - 1
+            If StatusList.Items(I).Checked = True Then
+                iCount = iCount + 1
+            End If
+        Next
+        If iCount = 0 Then
+            MsgBox("선택한 항목이 없습니다.", MsgBoxStyle.Exclamation, "알림")
+        Else
+            Call EnrollCourse("two")
+        End If
+    End Sub
+    Public Sub EnrollCourse(count As String) '수강신청 구문 one:1개 two:2개이상
+        Dim i, CountNum As Integer
+        Dim NowUrl, MyUrl, alctcrSn, stepSn, hmpgOperSn, totalURL, msg, Cname As String
+        CountNum = 0 '카운팅 초기화
         With Me.StatusList
             For i = 0 To .Items.Count - 1
-                If .Items(i).Selected = True Then
-                    selectURL = .Items(i).SubItems(3).Text
-                    System.Diagnostics.Process.Start(selectURL) '브라우저로 보기
+                Cname = .Items(i).SubItems(1).Text '강의 이름
+                NowUrl = .Items(i).SubItems(4).Text '주소
+                MyUrl = .Items(i).SubItems(5).Text '게시판 아이디
+                alctcrSn = .Items(i).SubItems(6).Text
+                stepSn = .Items(i).SubItems(7).Text
+                hmpgOperSn = .Items(i).SubItems(8).Text
+                totalURL = NowUrl & "/hmpg/hmpgLctrumView.do?menuSn=" & MyUrl & "&alctcrSn=" & alctcrSn & "&stepSn=" & stepSn
+
+                If count = "one" Then
+                    If .Items(i).Selected = True Then
+                        If lrnType.Text = "미수강중" Then
+                            msg = MsgBox(""" " & Cname & " """ & vbCrLf & "해당 강의를 신청하시겠습니까?", vbYesNo, "수강신청")
+                            If msg = vbYes Then
+                                StatusList.Enabled = False '리스트뷰 비활성화
+                                Try
+                                    http.Open("POST", "https://" & Shost & ".ebssw.kr/lrnng/alctcr/alctcrAtnlcAt.do")
+                                    http.SetRequestHeader("Referer", NowUrl & "/hmpg/hmpgAlctcrDetailView.do?menuSn=" & MyUrl & "&alctcrSn=" & alctcrSn)
+                                    http.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+                                    http.SetRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36")
+                                    http.SetRequestHeader("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6")
+                                    http.SetRequestHeader("Host", Shost & ".ebssw.kr")
+                                    http.Send("alctcrSn=" & alctcrSn & "&alctcrTy=1")
+                                    http.WaitForResponse()
+
+                                    http.Open("POST", NowUrl & "/lrnng/alctcr/alctcrAtnlcSave.do")
+                                    http.SetRequestHeader("Referer", NowUrl & "/hmpg/hmpgAlctcrDetailView.do?menuSn=" & MyUrl & "&alctcrSn=" & alctcrSn)
+                                    http.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+                                    http.SetRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36")
+                                    http.SetRequestHeader("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6")
+                                    http.SetRequestHeader("Host", Shost & ".ebssw.kr")
+                                    http.Send("alctcrSn=" & alctcrSn & "&stepSn=" & stepSn & "&hmpgOperSn=" & hmpgOperSn & "&crtfcUseAt=0&athriCrtfcInfo=&athriCrtecAt=")
+                                    http.WaitForResponse()
+
+                                    MsgBox("수강신청에 성공하였습니다.")
+                                    .Items(i).Remove() '임시로 아이템 제거
+
+                                Catch ex As Exception
+                                    MsgBox("오류가 발생했습니다." & vbCrLf & ex.ToString)
+                                End Try
+                                StatusList.Enabled = True '리스트뷰 활성화
+                            End If
+                        Else
+                            System.Diagnostics.Process.Start(totalURL) '브라우저로 열기
+                        End If
+                    End If
+                Else 'two
+                    If .Items(i).Checked = True Then
+                        If lrnType.Text = "미수강중" Then
+                            msg = MsgBox(""" " & Cname & " """ & vbCrLf & "해당 강의를 신청하시겠습니까?", vbYesNo, "수강신청")
+                            If msg = vbYes Then
+                                StatusList.Enabled = False '리스트뷰 비활성화
+                                Try
+                                    http.Open("POST", "https://" & Shost & ".ebssw.kr/lrnng/alctcr/alctcrAtnlcAt.do")
+                                    http.SetRequestHeader("Referer", NowUrl & "/hmpg/hmpgAlctcrDetailView.do?menuSn=" & MyUrl & "&alctcrSn=" & alctcrSn)
+                                    http.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+                                    http.SetRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36")
+                                    http.SetRequestHeader("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6")
+                                    http.SetRequestHeader("Host", Shost & ".ebssw.kr")
+                                    http.Send("alctcrSn=" & alctcrSn & "&alctcrTy=1")
+                                    http.WaitForResponse()
+
+                                    http.Open("POST", NowUrl & "/lrnng/alctcr/alctcrAtnlcSave.do")
+                                    http.SetRequestHeader("Referer", NowUrl & "/hmpg/hmpgAlctcrDetailView.do?menuSn=" & MyUrl & "&alctcrSn=" & alctcrSn)
+                                    http.SetRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+                                    http.SetRequestHeader("User-Agent", "Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/80.0.3987.163 Safari/537.36")
+                                    http.SetRequestHeader("Accept-Language", "ko-KR,ko;q=0.9,en-US;q=0.8,en;q=0.7,ja;q=0.6")
+                                    http.SetRequestHeader("Host", Shost & ".ebssw.kr")
+                                    http.Send("alctcrSn=" & alctcrSn & "&stepSn=" & stepSn & "&hmpgOperSn=" & hmpgOperSn & "&crtfcUseAt=0&athriCrtfcInfo=&athriCrtecAt=")
+                                    http.WaitForResponse()
+
+                                    .Items(i).Remove() '임시로 아이템 제거
+                                    CountNum = CountNum + 1
+                                    If i = .Items.Count - 1 Then
+                                        MsgBox(CountNum & "개의 수강신청을 성공하였습니다.")
+                                    End If
+                                Catch ex As Exception
+                                    MsgBox("오류가 발생했습니다." & vbCrLf & ex.ToString)
+                                End Try
+                                StatusList.Enabled = True '리스트뷰 활성화
+                            End If
+                        End If
+                    End If
                 End If
             Next
         End With
@@ -175,12 +316,15 @@ Public Class Form1
     Private Sub CallNokori()
         '진행중인 강의와 진도율 조회
         Dim html, html2, MyUrl, Cutting, Lcount, NowUrl, ClassName, Ltotal, ComCount As String
-        Dim Lname(), Lend(), Lcontext(), alctcrSn(), stepSn() As String
+        Dim Lname(), Lend(), Lcontext(), Ldate(), alctcrSn(), stepSn(), hmpgOperSn() As String
 
         startNokori.Enabled = False '새로고침 비활성화
         lrnType.Enabled = False '콤보박스 비활성화
+        StatusList.Enabled = False '리스트뷰 비활성화
+        StatusList.CheckBoxes = False '리스트뷰 체크박스 비활성화
         UrlList = Split(U1, "|") 'URL을 리스트로 정렬
         StatusList.Items.Clear() '리스트 초기화
+        EnrollPanel.Visible = False '수강신청 버튼 비활성화
         ComCount = 0 '100% 카운트 초기화
         Me.Cursor = Cursors.WaitCursor '로딩 커서
 
@@ -203,6 +347,7 @@ Public Class Form1
             http.WaitForResponse()
             html2 = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
             'Console.WriteLine("<------------------------>" & vbCrLf & html2)
+
             Cutting = Split(html2, "list al")(1) '리스트 부분 컷
 
             If InStr(Cutting, "강좌가 없습니다.") Then
@@ -213,14 +358,18 @@ Public Class Form1
                 'for문에서 i가 추가되면 새롭게 string을 찾음
                 Lname = Split(Cutting, "tit bold") '강의 제목 검출용
                 Lcontext = Split(Cutting, "tit bold") '목차 검출용
+                Ldate = Split(Cutting, "tit bold") '날짜 검출용
                 alctcrSn = Split(Cutting, "class=""info""") '강의 주소 검출용 1
                 stepSn = Split(Cutting, "class=""info""") '강의 주소 검출용2
+                hmpgOperSn = Split(Cutting, "class=""info""") '강의 주소 검출용3
 
                 For i2 = 1 To UBound(Lname)
                     Lname(i2) = Split(Split(Lname(i2), "tit_txt"">")(1), "</span>")(0).Replace(vbTab, "") '강의 제목
                     Lcontext(i2) = Split(Split(Lcontext(i2), "class=""way""")(1), "</div>")(0) '목차 부분만 따오기
+                    Ldate(i2) = Split(Split(Ldate(i2), "학습 시작일 : ")(1), "</li>")(0) '날짜 부분만 따오기
                     alctcrSn(i2) = Split(Split(alctcrSn(i2), "showLctrumView('")(1), "',")(0) 'alctcrSn 값
                     stepSn(i2) = Split(Split(stepSn(i2), alctcrSn(i2) & "', '")(1), "',")(0) 'stepSn 값
+                    hmpgOperSn(i2) = Split(Split(hmpgOperSn(i2), stepSn(i2) & "', '")(1), "',")(0) 'hmpgOperSn 값
 
                     Lend = Split(Lcontext(i2), "<a href") 'a 부분 반복 ㄱㄱ
 
@@ -254,7 +403,13 @@ Public Class Form1
                     StatusList.Items.AddRange(New ListViewItem() {CListDesu})
                     CListDesu.SubItems.Add(Lname(i2)) '진도 이름
                     CListDesu.SubItems.Add(strPer) '진도율
-                    CListDesu.SubItems.Add(NowUrl & "/hmpg/hmpgLctrumView.do?menuSn=" & MyUrl & "&alctcrSn=" & alctcrSn(i2) & "&stepSn=" & stepSn(i2)) '주소
+                    CListDesu.SubItems.Add(Ldate(i2)) '날짜
+                    CListDesu.SubItems.Add(NowUrl) '기본주소
+                    CListDesu.SubItems.Add(MyUrl) '마이페이지 주소값
+                    CListDesu.SubItems.Add(alctcrSn(i2))
+                    CListDesu.SubItems.Add(stepSn(i2))
+                    CListDesu.SubItems.Add(hmpgOperSn(i2))
+                    'CListDesu.SubItems.Add(NowUrl & "/hmpg/hmpgLctrumView.do?menuSn=" & MyUrl & "&alctcrSn=" & alctcrSn(i2) & "&stepSn=" & stepSn(i2)) '주소
                     Application.DoEvents() '렉 방지
                     Lcount = 0 '카운트 초기화 
                 Next i2
@@ -264,6 +419,7 @@ Public Class Form1
         '로딩완료 이후
         startNokori.Enabled = True '새로고침 버튼 활성화
         lrnType.Enabled = True '콤보박스 활성화
+        StatusList.Enabled = True '리스트뷰 활성화
         Me.Cursor = Cursors.Default '커서 디폴트로 복귀
         If LType = "LRN" And ComCount <> 0 Then
             MsgBox(ComCount & "개의 강의가 학습완료 처리되었습니다." & vbCrLf & "새로고침을 시도합니다!")
@@ -271,11 +427,18 @@ Public Class Form1
         End If
     End Sub
     Private Sub CallNotEnrolled() '미수강중 목록 불러오기
-        Dim NowUrl, html, ClassName, Cutting, Lname(), Cut2, newLname, Lurl(), urlpage As String
+        Dim NowUrl, html, menuSn, ClassName, hmpgOperSn, Cutting, Cut2, newLname, Lurl(), urlpage, Ldate, MyUrl(), alctcrSn(), stepSn() As String
+
         startNokori.Enabled = False '새로고침 비활성화
         lrnType.Enabled = False '콤보박스 비활성화
+        StatusList.Enabled = False '리스트뷰 비활성화
+        StatusList.CheckBoxes = True '리스트뷰 체크박스 활성화
         StatusList.Items.Clear() '리스트 초기화
+        EnrollBtn.Enabled = False '수강신청 버튼 아직 못누르게
+        EnrollPanel.Visible = True '수강신청 버튼 활성화
         Me.Cursor = Cursors.WaitCursor '로딩 커서
+
+        Call LoginCheck()
 
         For i = 1 To UBound(UrlList)
             NowUrl = "https://" & UrlList(i) '클래스 URL
@@ -283,39 +446,73 @@ Public Class Form1
             http.Send()
             http.WaitForResponse()
             html = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
+            menuSn = Split(Split(html, "hmpgAlctcrListView.do?menuSn=")(1), """")(0) '강의 목록 주소
+
+            http.Open("GET", NowUrl & "/hmpg/hmpgAlctcrListView.do?menuSn=" & menuSn)
+            http.Send()
+            http.WaitForResponse()
+            html = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
+
             ClassName = Split(Split(html, "logo txt_grey"">")(1), "</a>")(0) '클래스 이름 추출
+            hmpgOperSn = Split(Split(html, "fncHmpgVisitLogInsert(""")(1), """")(0) '클래스 이름 추출
 
             Cutting = Split(html, "learning_list")(1) '리스트 부분 컷
             'Lname = Split(Cutting, "tit bold") '강의 제목 검출용
             Lurl = Split(Cutting, "<li class=""clearfix"">") '강의주소 검출용
+            MyUrl = Split(Cutting, "<li class=""clearfix"">") '강의주소 검출용
+            alctcrSn = Split(Cutting, "<li class=""clearfix"">") '강의주소 검출용
+            stepSn = Split(Cutting, "<li class=""clearfix"">") '강의주소 검출용
 
             For i2 = 1 To UBound(Lurl)
                 'Lname(i2) = Split(Split(Lname(i2), """>")(1), "</p>")(0).Replace(vbTab, "") '강의 제목
                 Lurl(i2) = Split(Split(Lurl(i2), "<a href=""")(1), """ class=")(0) '주소 부분만 따오기
-                http.Open("GET", "https://" & Shost & ".ebssw.kr" & Lurl(i2))
-                http.Send()
-                http.WaitForResponse()
-                urlpage = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
-                'Console.WriteLine("<------------------------>" & vbCrLf & "https://" & Shost & ".ebssw.kr" & Lurl(i2))
-
-                Cut2 = Split(urlpage, "og:title")(1)
-                newLname = Split(Split(Cut2, "content=""")(1), """ />")(0) '강의 제목 따오기
-
-                If InStr(urlpage, "btn_enrol") Then
-                    Dim NotEnrollList As New ListViewItem(ClassName, i2 - 1) '과목 제목
-                    StatusList.Items.AddRange(New ListViewItem() {NotEnrollList})
-                    NotEnrollList.SubItems.Add(newLname) '강의(진도) 이름
-                    NotEnrollList.SubItems.Add("미수강중") '미수강 표시
-                    NotEnrollList.SubItems.Add("https://" & Shost & ".ebssw.kr" & Lurl(i2)) '강의 주소
-                    Application.DoEvents() '렉방지
+                If InStr(Cutting, "등록된 강좌가 없습니다.") Then
+                    '으앙 넘어가요ㅠㅠ
                 Else
+                    MyUrl(i2) = Split(Split(Lurl(i2), "menuSn=")(1), "&")(0) '마이페이지 메뉴 아이디
+                    Console.WriteLine(MyUrl(i2) & vbCrLf & "---")
+                    alctcrSn(i2) = Split(Lurl(i2), "&alctcrSn=")(1) 'alctcrSn 값
+
+
+                    http.Open("GET", "https://" & Shost & ".ebssw.kr" & Lurl(i2))
+                    http.Send()
+                    http.WaitForResponse()
+                    urlpage = System.Text.Encoding.UTF8.GetString(http.ResponseBody)
+
+                    If InStr(urlpage, "btn_enrol") Then
+                        stepSn(i2) = Split(Split(urlpage, "name=""stepSn"" value=""")(1), """")(0) 'stepSn 값
+                        'Console.WriteLine("<------------------------>" & vbCrLf & "https://" & Shost & ".ebssw.kr" & Lurl(i2))
+
+                        Cut2 = Split(urlpage, "og:title")(1)
+                        newLname = Split(Split(Cut2, "content=""")(1), """ />")(0) '강의 제목 따오기
+
+                        Ldate = Split(Split(urlpage, "강좌 작성일</span>")(1), "</li>")(0) '날짜 추출
+
+                        Dim NotEnrollList As New ListViewItem(ClassName, i2 - 1) '과목 제목
+                        StatusList.Items.AddRange(New ListViewItem() {NotEnrollList})
+                        NotEnrollList.SubItems.Add(newLname) '강의(진도) 이름
+                        NotEnrollList.SubItems.Add("미수강중") '미수강 표시
+                        NotEnrollList.SubItems.Add(Ldate) '날짜 표시
+                        'NotEnrollList.SubItems.Add("https://" & Shost & ".ebssw.kr" & Lurl(i2)) '강의 주소
+                        NotEnrollList.SubItems.Add(NowUrl)
+                        NotEnrollList.SubItems.Add(MyUrl(i2))
+                        NotEnrollList.SubItems.Add(alctcrSn(i2))
+                        NotEnrollList.SubItems.Add(stepSn(i2))
+                        NotEnrollList.SubItems.Add(hmpgOperSn)
+                        Application.DoEvents() '렉방지
+                    Else
+                    End If
+                    Application.DoEvents() '렉방지
                 End If
-                Application.DoEvents() '렉방지
+
             Next i2
             Application.DoEvents() '렉방지
         Next i
         startNokori.Enabled = True '새로고침 버튼 활성화
         lrnType.Enabled = True '콤보박스 활성화 
+        StatusList.Enabled = True '리스트뷰 활성화
+        EnrollPanel.Enabled = True '수강신청 버튼 활성화
+        EnrollBtn.Enabled = True '수강신청 버튼 활성화
         Me.Cursor = Cursors.Default '커서 디폴트로 복귀
     End Sub
     Private Sub IDSaveBox_CheckedChanged(sender As Object, e As EventArgs) Handles IDSaveBox.CheckedChanged
@@ -328,12 +525,8 @@ Public Class Form1
         SearchCode.Show() '학교검색 폼 실행
         'System.Diagnostics.Process.Start("https://github.com/devITae/EBSOCProgressViewer#11-%ED%95%99%EA%B5%90%EC%BD%94%EB%93%9C-%EC%B0%BE%EA%B8%B0")
     End Sub
-
-    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
-        System.Diagnostics.Process.Start("https://github.com/devITae/EBSOCProgressViewer") '깃허브 이동
-    End Sub
-
     Private Sub startNokori_Click(sender As Object, e As EventArgs) Handles startNokori.Click
+        Call LoginCheck() '로그인 상태 확인
         Try
             If lrnType.Text = "학습중" Then
                 LType = "LRN"
@@ -352,6 +545,7 @@ Public Class Form1
             Call Login()
         Catch ex2 As System.Runtime.InteropServices.COMException
             MsgBox("서버와의 연결을 실패했습니다.", MsgBoxStyle.Exclamation, "알림")
+            startNokori.Enabled = True
         Catch ex3 As Exception
             MsgBox(ex3.ToString, MsgBoxStyle.Exclamation, "에러")
         End Try
@@ -391,10 +585,12 @@ Public Class Form1
     Public Sub CheckUpdate(nowVer As String)
         '업데이트 확인
         Dim HTML, lastest, upLink, IU, notice As String
+
         http2 = CreateObject("WinHttp.WinHttpRequest.5.1")
         http2.Open("GET", "https://raw.githubusercontent.com/devITae/EBSOCProgressViewer/master/img/version")
         http2.Send()
         http2.WaitForResponse()
+
         HTML = System.Text.Encoding.UTF8.GetString(http2.ResponseBody)
         lastest = Split(Split(HTML, "Lastest(v")(1), ")")(0)
         upLink = Split(Split(HTML, "UpdateLink(")(1), ")")(0)
@@ -407,7 +603,7 @@ Public Class Form1
             End If
         ElseIf lastest > nowVersion Then
             '업데이트 알림
-            IU = MsgBox("새로운 버전이 감지되었습니다!" & vbCrLf & "지금 업데이트 하시겠습니까?", vbYesNo, "업데이트 알림")
+            IU = MsgBox("정상적인 사용을 위해 업데이트를 권장합니다!" & vbCrLf & "지금 업데이트 하시겠습니까?", vbYesNo, "업데이트 알림")
             If IU = vbYes Then
                 System.Diagnostics.Process.Start(upLink)
             Else
@@ -418,4 +614,11 @@ Public Class Form1
             MsgBox("개발중인 테스트 버전 입니다." & vbCrLf & "최신: " & lastest & " / 현재: " & nowVer, MsgBoxStyle.Exclamation, "Welcome! Beta Tester.")
         End If
     End Sub
+    Private Sub LinkLabel1_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel1.LinkClicked
+        System.Diagnostics.Process.Start("https://github.com/devITae/EBSOCProgressViewer") '깃허브 이동
+    End Sub
+    Private Sub LinkLabel2_LinkClicked(sender As Object, e As LinkLabelLinkClickedEventArgs) Handles LinkLabel2.LinkClicked
+        System.Diagnostics.Process.Start("https://github.com/devITae/EBSOCProgressViewer/releases/") '깃허브 이동
+    End Sub
+
 End Class
