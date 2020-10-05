@@ -1,18 +1,20 @@
 # EBS OC ProgressViewer
 EBS 온라인 클래스 진도율을 일괄적으로 조회/계산할 수 있는 프로그램입니다.  
-진도율로 출결관리를 하는 학생들을 위해 제작되었습니다.  (구. EBS 온라인 클래스 진도율 계산기)
+진도율로 출결관리를 하는 학생들을 위해 제작되었습니다.  (구. EBS 온라인 클래스 진도율 계산기)  
+일괄 수강신청 기능, 학교 페이지 바로가기 기능 등 여러 기능 또한 지원합니다.
 
-### 최신버전 : v2.5 (Build 201005)
+### 최신버전 : v2.5 (Build 201006)
 
-## [다운로드 (Download)](https://github.com/devITae/EBSOCProgressViewer/releases/download/2.5/EBSOCPro2.5.exe)
+## [다운로드 (Download)](https://github.com/devITae/EBSOCProgressViewer/releases/download/2.5/EBSOCPro2.5.exe) [사용 전 아래 사항을 참고하세요.]
 ![최초 실행시](./img/first_notice.png)
 #### VB .NET 으로 제작되었으며 윈도우에서만 이용가능 합니다.
 #### EBS 계정으로만 로그인이 가능합니다. (소셜로그인 미지원)
+#### 윈도우 기본 배율(100%)에 최적화 되었습니다. 
 
 ChangeLog : https://github.com/devITae/EBSOCProgressViewer/releases  
 
 
-![메인 스크린샷](./img/screenshot2.png)
+![메인 스크린샷](./img/default.png)
 
 # 1. 사용법
 ## 1.1. 학교코드 검색
