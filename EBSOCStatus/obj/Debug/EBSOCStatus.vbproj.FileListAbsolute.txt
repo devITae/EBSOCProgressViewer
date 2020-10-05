@@ -34,3 +34,4 @@ C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Debug\EBSOCStatu
 C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Debug\EBSOCStatus.exe
 C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Debug\EBSOCStatus.xml
 C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Debug\EBSOCStatus.pdb
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Debug\EBSOCStatus.DateDialog.resources

@@ -25,7 +25,7 @@ Public Class ListViewSort
 
             If IsDate(CType(x, ListViewItem).SubItems(col).Text) And IsDate(CType(y, ListViewItem).SubItems(col).Text) Then
                 'returnVal = 1
-                returnVal = DateTime.Compare(firstDate, secondDate) '날짜로 비교
+                returnVal = DateTime.Compare(secondDate, firstDate) '날짜로 비교
 
             Else
                 If IsNumeric(CType(x, ListViewItem).SubItems(col).Text) And IsNumeric(CType(y, ListViewItem).SubItems(col).Text) Then

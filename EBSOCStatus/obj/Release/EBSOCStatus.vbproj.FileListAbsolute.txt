@@ -23,3 +23,4 @@ C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCSta
 C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.xml
 C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.pdb
 C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.vbprojAssemblyReference.cache
+C:\Users\1Tae\Desktop\EBSOCProgressViewer-2.3.1\EBSOCStatus\obj\Release\EBSOCStatus.DateDialog.resources
