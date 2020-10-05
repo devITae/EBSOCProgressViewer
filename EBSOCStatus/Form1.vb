@@ -236,7 +236,7 @@ Public Class Form1
             End If
         Next
         If iCount = 0 Then
-            MsgBox(StatusList.Items.Count & "선택한 항목이 없습니다.", MsgBoxStyle.Exclamation, "알림")
+            MsgBox("선택한 항목이 없습니다.", MsgBoxStyle.Exclamation, "알림")
         Else
             Call EnrollCourse("two")
         End If
