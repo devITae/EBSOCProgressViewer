@@ -5,7 +5,7 @@ Public Class Form1
     Dim nowVersion As String
     Dim sortColumn As Integer = -1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        nowVersion = "2.05.0" '버전 가운데는 두자리로!
+        nowVersion = "2.05.1" '버전 가운데는 두자리로!
         lrnType.Text = "학습중"
         LType = "LRN"
         Try

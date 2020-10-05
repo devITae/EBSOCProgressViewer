@@ -133,7 +133,7 @@ Partial Class Form1
         '
         'ProgressHeader
         '
-        Me.ProgressHeader.Tag = "Numberic"
+        Me.ProgressHeader.Tag = "Numeric"
         Me.ProgressHeader.Text = "진도율"
         Me.ProgressHeader.Width = 66
         '
@@ -249,7 +249,7 @@ Partial Class Form1
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(141, 12)
         Me.Label3.TabIndex = 20
-        Me.Label3.Text = "버전: v2.5 (Build 201005)"
+        Me.Label3.Text = "버전: v2.5 (Build 201006)"
         '
         'LinkLabel2
         '
