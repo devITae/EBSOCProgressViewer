@@ -49,6 +49,7 @@ Partial Class Form1
         Me.EnrollPanel = New System.Windows.Forms.Panel()
         Me.Label1 = New System.Windows.Forms.Label()
         Me.GoClass = New System.Windows.Forms.Button()
+        Me.openSender = New System.Windows.Forms.Button()
         Me.PictureBox1 = New System.Windows.Forms.PictureBox()
         Me.EnrollPanel.SuspendLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).BeginInit()
@@ -140,7 +141,7 @@ Partial Class Form1
         'DateHeader
         '
         Me.DateHeader.Tag = "Date"
-        Me.DateHeader.Text = "강좌 작성일"
+        Me.DateHeader.Text = "학습 시작일"
         Me.DateHeader.Width = 98
         '
         'startNokori
@@ -198,7 +199,7 @@ Partial Class Form1
         '
         Me.LinkLabel1.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.LinkLabel1.AutoSize = True
-        Me.LinkLabel1.Location = New System.Drawing.Point(203, 551)
+        Me.LinkLabel1.Location = New System.Drawing.Point(203, 574)
         Me.LinkLabel1.Name = "LinkLabel1"
         Me.LinkLabel1.Size = New System.Drawing.Size(42, 12)
         Me.LinkLabel1.TabIndex = 14
@@ -236,7 +237,7 @@ Partial Class Form1
         Me.RichTextBox1.Location = New System.Drawing.Point(262, 540)
         Me.RichTextBox1.Name = "RichTextBox1"
         Me.RichTextBox1.ReadOnly = True
-        Me.RichTextBox1.Size = New System.Drawing.Size(742, 57)
+        Me.RichTextBox1.Size = New System.Drawing.Size(651, 57)
         Me.RichTextBox1.TabIndex = 18
         Me.RichTextBox1.Text = "※ 진도율은 프로그램 내에서 진행된 자체적인 계산입니다. (완강수 / 목차수 * 100)" & Global.Microsoft.VisualBasic.ChrW(10) & "※ 열(Column) 클릭 : 오름/내림차순  ※행(Ro" &
     "w) 더블클릭 : 기본 브라우저로 열기 or 선택 항목 수강신청" & Global.Microsoft.VisualBasic.ChrW(10) & "※ 조회 내용이 잘못되었다면, 새로고침하거나 홈페이지에서 다시 확인해주세요."
@@ -249,13 +250,13 @@ Partial Class Form1
         Me.Label3.Name = "Label3"
         Me.Label3.Size = New System.Drawing.Size(141, 12)
         Me.Label3.TabIndex = 20
-        Me.Label3.Text = "버전: v2.5 (Build 201006)"
+        Me.Label3.Text = "버전: v2.6 (Build 201019)"
         '
         'LinkLabel2
         '
         Me.LinkLabel2.Anchor = CType((System.Windows.Forms.AnchorStyles.Bottom Or System.Windows.Forms.AnchorStyles.Left), System.Windows.Forms.AnchorStyles)
         Me.LinkLabel2.AutoSize = True
-        Me.LinkLabel2.Location = New System.Drawing.Point(179, 574)
+        Me.LinkLabel2.Location = New System.Drawing.Point(179, 551)
         Me.LinkLabel2.Name = "LinkLabel2"
         Me.LinkLabel2.Size = New System.Drawing.Size(66, 12)
         Me.LinkLabel2.TabIndex = 21
@@ -309,6 +310,16 @@ Partial Class Form1
         Me.GoClass.Text = "학교 페이지 바로가기"
         Me.GoClass.UseVisualStyleBackColor = True
         '
+        'openSender
+        '
+        Me.openSender.Enabled = False
+        Me.openSender.Location = New System.Drawing.Point(919, 540)
+        Me.openSender.Name = "openSender"
+        Me.openSender.Size = New System.Drawing.Size(85, 57)
+        Me.openSender.TabIndex = 25
+        Me.openSender.Text = "선생님과" & Global.Microsoft.VisualBasic.ChrW(13) & Global.Microsoft.VisualBasic.ChrW(10) & "연동"
+        Me.openSender.UseVisualStyleBackColor = True
+        '
         'PictureBox1
         '
         Me.PictureBox1.Image = Global.EBSOCStatus.My.Resources.Resources.title
@@ -327,6 +338,7 @@ Partial Class Form1
         Me.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink
         Me.BackColor = System.Drawing.Color.White
         Me.ClientSize = New System.Drawing.Size(1022, 606)
+        Me.Controls.Add(Me.openSender)
         Me.Controls.Add(Me.GoClass)
         Me.Controls.Add(Me.EnrollPanel)
         Me.Controls.Add(Me.LinkLabel2)
@@ -351,7 +363,7 @@ Partial Class Form1
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "EBS OnlineClass 진도율 뷰어 v2.5"
+        Me.Text = "EBS OnlineClass 진도율 뷰어 v2.6"
         Me.EnrollPanel.ResumeLayout(False)
         Me.EnrollPanel.PerformLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()
@@ -386,4 +398,5 @@ Partial Class Form1
     Friend WithEvents EnrollPanel As Panel
     Friend WithEvents Label1 As Label
     Friend WithEvents GoClass As Button
+    Friend WithEvents openSender As Button
 End Class

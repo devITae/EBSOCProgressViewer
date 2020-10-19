@@ -1,11 +1,11 @@
 ﻿Imports System.Text.RegularExpressions
 Public Class Form1
     Public http, http2 As Object
-    Public U1, UrlList(), First, SAML0, SAML1, Shost, MainH, LType As String
+    Public U1, UrlList(), First, SAML0, SAML1, Shost, MainH, LType, SName As String
     Dim nowVersion As String
     Dim sortColumn As Integer = -1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        nowVersion = "2.05.1" '버전 가운데는 두자리로!
+        nowVersion = "2.06.0" '버전 가운데는 두자리로!
         lrnType.Text = "학습중"
         LType = "LRN"
         Try
@@ -19,6 +19,7 @@ Public Class Form1
             ClassList.Enabled = False
             startNokori.Enabled = False
             lrnType.Enabled = False
+            openSender.Enabled = False
 
             http = CreateObject("WinHttp.WinHttpRequest.5.1")
             http.Open("GET", "https://ebssw.kr/sso/loginView.do?loginType=onlineClass")
@@ -32,6 +33,7 @@ Public Class Form1
         Catch ex As Exception
             MsgBox("인터넷 또는 서버가 불안정합니다." & vbCrLf & "프로그램을 재실행해주시기 바랍니다.", MsgBoxStyle.Exclamation, "알림")
             Enable_Control(False)
+            Me.Close()
         End Try
     End Sub
     Private Sub IDSaving() '아이디 저장 여부
@@ -86,6 +88,7 @@ Public Class Form1
 
             If InStr(Temp, IDBox.Text) Then
                 MsgBox("로그인에 성공하였습니다.", MsgBoxStyle.Exclamation, "환영합니다!")
+                SName = Split(Split(Temp, "user_name fl"">")(1), "님")(0)
                 StatusList.Enabled = True
                 ClassList.Enabled = True
                 startNokori.Enabled = True
@@ -105,7 +108,7 @@ Public Class Form1
         End If
         Me.Cursor = Cursors.Default '커서 디폴트로 복귀
     End Sub
-    Private Sub LoginCheck()
+    Public Sub LoginCheck()
         Dim Temp As String
         Try
             http.Open("GET", "https://" & Shost & ".ebssw.kr/onlineClass/search/onlineClassSearchView.do?schulCcode=" & SCodeBox.Text)
@@ -113,12 +116,15 @@ Public Class Form1
             http.WaitForResponse()
         Catch ex As IndexOutOfRangeException
             MsgBox("로그인 세션이 만료되어 재로그인을 시도합니다.", MsgBoxStyle.Exclamation, "알림")
+            ClassSearch.Close()
             Call Login()
         Catch ex2 As System.Runtime.InteropServices.COMException
             MsgBox("서버와의 연결을 실패했습니다.", MsgBoxStyle.Exclamation, "알림")
+            ClassSearch.Close()
             startNokori.Enabled = True
         Catch ex3 As Exception
             MsgBox(ex3.ToString, MsgBoxStyle.Exclamation, "에러")
+            ClassSearch.Close()
         End Try
 
         Temp = http.ResponseText
@@ -126,6 +132,7 @@ Public Class Form1
             '넘어가욧!
         Else
             MsgBox("로그인 세션이 만료되어 재로그인을 시도합니다.", MsgBoxStyle.Exclamation, "알림")
+            ClassSearch.Close()
             Call Login()
         End If
     End Sub
@@ -185,6 +192,7 @@ Public Class Form1
                 StatusList.Size = New Size(742, 456)
                 EnrollPanel.Visible = False
                 DateDialog.Close()
+                DateHeader.Text = "학습 시작일"
                 Call CallNokori()
             ElseIf lrnType.Text = "학습완료" Then
                 LType = "COMPT"
@@ -192,12 +200,14 @@ Public Class Form1
                 DateDialog.RadioWeek.Checked = True '기본값 (일주일)
                 DateDialog.Show() '범위 설정 오픈
                 EnrollPanel.Visible = False
+                DateHeader.Text = "학습 시작일"
                 'Call CallNokori()
             ElseIf lrnType.Text = "미수강중" Then
                 StatusList.Size = New Size(742, 417)
                 EnrollPanel.Visible = True
                 DateDialog.RadioMonth.Checked = True '기본값 (최근 한 달)
                 DateDialog.Show() '범위 설정 오픈
+                DateHeader.Text = "강좌 작성일"
                 'Call CallNotEnrolled()
             Else
                 lrnType.Text = "학습중"
@@ -230,7 +240,7 @@ Public Class Form1
     Dim iCount As Integer
     Private Sub EnrollBtn_Click(sender As Object, e As EventArgs) Handles EnrollBtn.Click
         iCount = 0
-        For I = 0 To StatusList.Items.Count - 2
+        For I = 0 To StatusList.Items.Count - 1
             If StatusList.Items(I).Checked = True Then
                 iCount = iCount + 1
             End If
@@ -353,6 +363,7 @@ Public Class Form1
 
         startNokori.Enabled = False '새로고침 비활성화
         lrnType.Enabled = False '콤보박스 비활성화
+        openSender.Enabled = False '연동 버튼 비활성화
         StatusList.Enabled = False '리스트뷰 비활성화
         StatusList.CheckBoxes = False '리스트뷰 체크박스 비활성화
         UrlList = Split(U1, "|") 'URL을 리스트로 정렬
@@ -467,6 +478,7 @@ Public Class Form1
         '로딩완료 이후
         startNokori.Enabled = True '새로고침 버튼 활성화
         lrnType.Enabled = True '콤보박스 활성화
+        openSender.Enabled = True '연동 버튼 활성화
         StatusList.Enabled = True '리스트뷰 활성화
         Me.Cursor = Cursors.Default '커서 디폴트로 복귀
         If LType = "LRN" And ComCount <> 0 Then
@@ -483,10 +495,15 @@ Public Class Form1
         End If
     End Sub
 
+    Private Sub openSender_Click(sender As Object, e As EventArgs) Handles openSender.Click
+        ClassSearch.Show()
+    End Sub
+
     Public Sub CallNotEnrolled() '미수강중 목록 불러오기
         Dim NowUrl, html, menuSn, ClassName, hmpgOperSn, Cutting, Cut2, newLname, urlpage, Ldate As String
         Dim Lurl(), MyUrl(), alctcrSn(), stepSn() As String
         startNokori.Enabled = False '새로고침 비활성화
+        openSender.Enabled = False '연동 버튼 비활성화
         lrnType.Enabled = False '콤보박스 비활성화
         StatusList.Enabled = False '리스트뷰 비활성화
         StatusList.CheckBoxes = True '리스트뷰 체크박스 활성화
@@ -571,6 +588,7 @@ Public Class Form1
         StatusList.Enabled = True '리스트뷰 활성화
         EnrollPanel.Enabled = True '수강신청 버튼 활성화
         EnrollBtn.Enabled = True '수강신청 버튼 활성화
+        openSender.Enabled = True '연동 버튼 활성화
         Me.Cursor = Cursors.Default '커서 디폴트로 복귀
     End Sub
     Private Sub IDSaveBox_CheckedChanged(sender As Object, e As EventArgs) Handles IDSaveBox.CheckedChanged

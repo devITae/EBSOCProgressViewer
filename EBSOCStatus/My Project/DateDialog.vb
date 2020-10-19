@@ -1,5 +1,6 @@
 ﻿Public Class DateDialog
     Private Sub DateDialog_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+        Me.TopMost = True '항상 위
         ControlEnable(True)
         Me.Cursor = Cursors.Default '커서 디폴트로 복귀
         If Form1.lrnType.Text = "학습완료" Then
@@ -14,17 +15,22 @@
         Me.Close()
     End Sub
     Private Sub GoWork_Click(sender As Object, e As EventArgs) Handles GoWork.Click
-        ControlEnable(False)
-        'Me.Enabled = False
-        Me.Cursor = Cursors.WaitCursor '로딩 커서
-        If Form1.lrnType.Text = "학습완료" Then
-            Call Form1.CallNokori()
-            Application.DoEvents()
-        ElseIf Form1.lrnType.Text = "미수강중" Then
-            Call Form1.CallNotEnrolled()
-            Application.DoEvents()
-        End If
-        'Me.Cursor = Cursors.Default '커서 디폴트로 복귀
+        Try
+            ControlEnable(False)
+            'Me.Enabled = False
+            Me.Cursor = Cursors.WaitCursor '로딩 커서
+            If Form1.lrnType.Text = "학습완료" Then
+                Call Form1.CallNokori()
+                Application.DoEvents()
+            ElseIf Form1.lrnType.Text = "미수강중" Then
+                Call Form1.CallNotEnrolled()
+                Application.DoEvents()
+            End If
+            'Me.Cursor = Cursors.Default '커서 디폴트로 복귀
+        Catch ex As IndexOutOfRangeException
+            Call Form1.LoginCheck() '로그인 재확인
+            Me.Close()
+        End Try
         Me.Close()
     End Sub
     Private Sub RadioAll_CheckedChanged(sender As Object, e As EventArgs) Handles RadioAll.CheckedChanged
@@ -48,6 +54,12 @@
         StartDate.Value = DateTime.Today.AddDays(1 - Today - 7) 'Monday
         EndDate.Value = DateTime.Today.AddDays(0 - Today) 'Sunday
     End Sub
+    Private Sub RadioMonth_CheckedChanged(sender As Object, e As EventArgs) Handles RadioMonth.CheckedChanged
+        '최근 한 달
+        DateEnable(False)
+        StartDate.Value = DateTime.Today.AddDays(-30) '-30일
+        EndDate.Value = DateTime.Today 'Today
+    End Sub
     Private Sub RadioCustom_CheckedChanged(sender As Object, e As EventArgs) Handles RadioCustom.CheckedChanged
         DateEnable(True)
     End Sub
@@ -64,12 +76,4 @@
         GoWork.Enabled = Bool
         Cancel.Enabled = Bool
     End Sub
-
-    Private Sub RadioMonth_CheckedChanged(sender As Object, e As EventArgs) Handles RadioMonth.CheckedChanged
-        '최근 한 달
-        DateEnable(False)
-        StartDate.Value = DateTime.Today.AddDays(-30) '-30일
-        EndDate.Value = DateTime.Today 'Today
-    End Sub
-
 End Class

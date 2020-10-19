@@ -101,6 +101,42 @@ Namespace My
                 Me("SchHost") = value
             End Set
         End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property gCode() As String
+            Get
+                Return CType(Me("gCode"),String)
+            End Get
+            Set
+                Me("gCode") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property nCode() As String
+            Get
+                Return CType(Me("nCode"),String)
+            End Get
+            Set
+                Me("nCode") = value
+            End Set
+        End Property
+        
+        <Global.System.Configuration.UserScopedSettingAttribute(),  _
+         Global.System.Diagnostics.DebuggerNonUserCodeAttribute(),  _
+         Global.System.Configuration.DefaultSettingValueAttribute("")>  _
+        Public Property cCode() As String
+            Get
+                Return CType(Me("cCode"),String)
+            End Get
+            Set
+                Me("cCode") = value
+            End Set
+        End Property
     End Class
 End Namespace
 
