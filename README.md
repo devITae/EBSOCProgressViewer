@@ -5,9 +5,9 @@ EBS 온라인 클래스 진도율을 일괄적으로 조회/계산할 수 있는
 일괄 수강신청 기능, 학교 페이지 바로가기 등 여러 추가기능 또한 지원합니다.  
 **>>> 사용 전 아래 사항을 참고하세요! <<<**
 
-### 최신버전 : v2.6 (Build 201019)
+### 최신버전 : v2.6.1 (Build 201118)
 
-## [▷다운로드 (Download)](https://github.com/devITae/EBSOCProgressViewer/releases/download/2.6/EBSOCPro2.6.exe)
+## [▷다운로드 (Download)](https://github.com/devITae/EBSOCProgressViewer/releases/download/2.6.1/EBSOCPro2.6.1.exe)
 ## [▷사용법 (How To Use)](#1-사용법)
 ![최초 실행시](./img/first_notice.png)
 #### 윈도우에서만 사용가능 하며, 디스플레이 기본 배율(100%)에 최적화 되었습니다.
