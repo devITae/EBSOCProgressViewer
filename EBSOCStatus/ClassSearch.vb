@@ -62,7 +62,7 @@
             Else
                 MsgBox("등록된 사용자가 아닙니다.", MsgBoxStyle.Exclamation, "알림")
                 'MsgBox(server_addr & "/class_search.php?school=" & Form1.SCodeBox.Text & "&grade=" & gbox.Text & "&class=" & cbox.Text)
-                MsgBox(shtml)
+                'MsgBox(shtml)
             End If
         End If
     End Sub

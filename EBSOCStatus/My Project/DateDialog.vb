@@ -16,6 +16,7 @@
     End Sub
     Private Sub GoWork_Click(sender As Object, e As EventArgs) Handles GoWork.Click
         Try
+            RemoveCloseButton(Me.Handle)
             ControlEnable(False)
             'Me.Enabled = False
             Me.Cursor = Cursors.WaitCursor '로딩 커서
@@ -29,7 +30,7 @@
             'Me.Cursor = Cursors.Default '커서 디폴트로 복귀
         Catch ex As IndexOutOfRangeException
             Call Form1.LoginCheck() '로그인 재확인
-            Me.Close()
+            Me.Hide()
         End Try
         Me.Close()
     End Sub
@@ -76,4 +77,16 @@
         GoWork.Enabled = Bool
         Cancel.Enabled = Bool
     End Sub
+
+    'https://happybono.wordpress.com/2017/08/28/vb-net-%EB%8B%AB%EA%B8%B0-x-%EB%B2%84%ED%8A%BC-%EB%B9%84%ED%99%9C%EC%84%B1%ED%99%94-%ED%95%98%EA%B8%B0/
+    Public Declare Function GetSystemMenu Lib "user32" (ByVal hwnd As Integer, ByVal bRevert As Integer) As Integer
+    Public Declare Function RemoveMenu Lib "user32" (ByVal hMenu As Integer, ByVal nPosition As Integer, ByVal wFlags As Integer) As Integer
+    Public Const SC_CLOSE = &HF060&
+    Public Const MF_BYCOMMAND = &H0&
+
+    Function RemoveCloseButton(ByVal iHWND As Integer) As Integer
+        Dim iSysMenu As Integer
+        iSysMenu = GetSystemMenu(iHWND, False)
+        Return RemoveMenu(iSysMenu, SC_CLOSE, MF_BYCOMMAND)
+    End Function
 End Class

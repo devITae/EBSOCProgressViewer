@@ -9,7 +9,7 @@ Imports System.Runtime.InteropServices
 ' 어셈블리 특성 값을 검토합니다.
 
 <Assembly: AssemblyTitle("EBS OC ProgressViewer")>
-<Assembly: AssemblyDescription("EBS 온라인 클래스 진도율을 일괄적으로 확인할 수 있습니다.")>
+<Assembly: AssemblyDescription("EBS 온라인 클래스의 진도율을 일괄적으로 확인할 수 있습니다.")>
 <Assembly: AssemblyCompany("Paran.BE")>
 <Assembly: AssemblyProduct("EBS OC ProgressViewer")>
 <Assembly: AssemblyCopyright("Copyright © ITae(aka. ParanBE) 2020")>
@@ -31,5 +31,5 @@ Imports System.Runtime.InteropServices
 ' 지정되도록 할 수 있습니다.
 ' <Assembly: AssemblyVersion("1.0.*")>
 
-<Assembly: AssemblyVersion("2.6.0.0")>
-<Assembly: AssemblyFileVersion("2.6.0.0")>
+<Assembly: AssemblyVersion("2.6.1.0")>
+<Assembly: AssemblyFileVersion("2.6.1.0")>

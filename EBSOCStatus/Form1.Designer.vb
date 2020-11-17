@@ -248,9 +248,9 @@ Partial Class Form1
         Me.Label3.AutoSize = True
         Me.Label3.Location = New System.Drawing.Point(14, 574)
         Me.Label3.Name = "Label3"
-        Me.Label3.Size = New System.Drawing.Size(141, 12)
+        Me.Label3.Size = New System.Drawing.Size(151, 12)
         Me.Label3.TabIndex = 20
-        Me.Label3.Text = "버전: v2.6 (Build 201019)"
+        Me.Label3.Text = "버전: v2.6.1 (Build 201118)"
         '
         'LinkLabel2
         '
@@ -363,7 +363,7 @@ Partial Class Form1
         Me.MaximizeBox = False
         Me.Name = "Form1"
         Me.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen
-        Me.Text = "EBS OnlineClass 진도율 뷰어 v2.6"
+        Me.Text = "EBS OnlineClass 진도율 뷰어 v2.6.1"
         Me.EnrollPanel.ResumeLayout(False)
         Me.EnrollPanel.PerformLayout()
         CType(Me.PictureBox1, System.ComponentModel.ISupportInitialize).EndInit()

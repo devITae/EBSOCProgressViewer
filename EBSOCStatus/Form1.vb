@@ -1,18 +1,20 @@
 ﻿Imports System.Text.RegularExpressions
 Public Class Form1
     Public http, http2 As Object
-    Public U1, UrlList(), First, SAML0, SAML1, Shost, MainH, LType, SName As String
+    Public U1, UrlList(), First, SAML0, SAML1, Shost, MainH, LType, SName, EndMsg As String
     Dim nowVersion As String
     Dim sortColumn As Integer = -1
     Private Sub Form1_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        nowVersion = "2.06.0" '버전 가운데는 두자리로!
-        lrnType.Text = "학습중"
+        lrnType.Text = "" '로그인 전 함수 실행 방지
+        nowVersion = "2.06.1" '버전 가운데는 두자리로!
+        'lrnType.Text = "학습중"
         LType = "LRN"
         Try
             CheckUpdate(nowVersion)
             SCodeBox.Text = My.Settings.SchCode
             IDBox.Text = My.Settings.ID
             IDSaveBox.Checked = My.Settings.IDSave
+
             Shost = "hoc30" '임시방편
 
             StatusList.Enabled = False
@@ -63,7 +65,7 @@ Public Class Form1
         ElseIf SCodeBox.Text.Trim() = "" Then
             MsgBox("학교코드를 검색하세요.", MsgBoxStyle.Exclamation, "로그인 오류")
             Call Enable_Control(True)
-            PWBox.Text = ""
+            'PWBox.Text = ""
             SCodeBox.Focus()
         Else
             '로그인 시도
@@ -291,9 +293,9 @@ Public Class Form1
                                     http.WaitForResponse()
 
                                     MsgBox("수강신청에 성공하였습니다.", MsgBoxStyle.Exclamation, "알림")
-                                    MsgBox("새로고침을 시도합니다.", MsgBoxStyle.Exclamation, "알림")
-                                    Call CallNotEnrolled() '새로고침
-                                    '.Items(i).Remove() '임시로 아이템 제거
+                                    'MsgBox("새로고침을 시도합니다.", MsgBoxStyle.Exclamation, "알림")
+                                    'Call CallNotEnrolled() '새로고침
+                                    .Items(i).Remove() '임시로 아이템 제거
                                 Catch ex As Exception
                                     MsgBox("오류가 발생했습니다." & vbCrLf & ex.ToString)
                                 End Try
@@ -332,8 +334,19 @@ Public Class Form1
                                     CountNum = CountNum + 1
                                     If CountNum = iCount Then
                                         MsgBox(CountNum & "개의 수강신청을 성공하였습니다.", MsgBoxStyle.Exclamation, "알림")
-                                        MsgBox("새로고침을 시도합니다.", MsgBoxStyle.Exclamation, "알림")
-                                        Call CallNotEnrolled() '새로고침
+                                        'MsgBox("새로고침을 시도합니다.", MsgBoxStyle.Exclamation, "알림")
+                                        'Call CallNotEnrolled() '새로고침
+                                        'For Each i22 As ListViewItem In StatusList.CheckedItems
+                                        '    StatusList.Items.Remove(i22) '체크 아이템 제거
+                                        'Next i22
+                                        EndMsg = MsgBox("새로고침 하시겠습니까?", vbYesNo, "알림")
+                                        If EndMsg = vbYes Then
+                                            'MsgBox("새로고침을 시도합니다.", MsgBoxStyle.Exclamation, "알림")
+                                            Call CallNotEnrolled() '새로고침
+                                        Else
+                                            '끝!
+                                        End If
+
                                     End If
                                 Catch ex As Exception
                                     MsgBox("오류가 발생했습니다." & vbCrLf & ex.ToString)
@@ -485,6 +498,10 @@ Public Class Form1
             MsgBox(ComCount & "개의 강의가 학습완료 처리되었습니다." & vbCrLf & "새로고침을 시도합니다!")
             Call CallNokori() '새로고침
         End If
+        If StatusList.Items.Count = 0 Then
+            StatusList.Items.Add("결과가 없습니다.")
+            StatusList.Enabled = False '클릭 못하게
+        End If
     End Sub
 
     Private Sub GoClass_Click(sender As Object, e As EventArgs) Handles GoClass.Click
@@ -583,6 +600,7 @@ Public Class Form1
             Next i2
             Application.DoEvents() '렉방지
         Next i
+
         startNokori.Enabled = True '새로고침 버튼 활성화
         lrnType.Enabled = True '콤보박스 활성화 
         StatusList.Enabled = True '리스트뷰 활성화
@@ -590,6 +608,13 @@ Public Class Form1
         EnrollBtn.Enabled = True '수강신청 버튼 활성화
         openSender.Enabled = True '연동 버튼 활성화
         Me.Cursor = Cursors.Default '커서 디폴트로 복귀
+
+        If StatusList.Items.Count = 0 Then
+            StatusList.Items.Add("결과가 없습니다.")
+            EnrollPanel.Enabled = False '수강신청 버튼 비활성화
+            StatusList.CheckBoxes = False '리스트뷰 체크박스 비활성화
+            StatusList.Enabled = False '클릭 못하게
+        End If
     End Sub
     Private Sub IDSaveBox_CheckedChanged(sender As Object, e As EventArgs) Handles IDSaveBox.CheckedChanged
         '아이디저장 체크시 상태저장 ㄱㄱ
