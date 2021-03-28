@@ -3,4 +3,4 @@ Developer(ITae)
 UpdateLink(https://github.com/devITae/EBSOCProgressViewer/releases/download/2.6.1/EBSOCPro2.6.1.exe)
 
 공지사항있음
-NotiMent(기존 온클이 지원 중단되면서, 업데이트 지원이 종료되었습니다." & vbCrLf & "그 동안 이용해 주셔서 감사드립니다!)
+NotiMent(기존 온클이 지원 중단되면서, 업데이트 지원이 종료되었습니다."" "& vbCrLf "& ""그 동안 이용해 주셔서 감사드립니다!)
